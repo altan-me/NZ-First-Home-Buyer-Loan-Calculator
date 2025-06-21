@@ -5,137 +5,195 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NZ First Home Buyer Loan Calculator</title>
     <style>
-      body {
-        font-family: Arial, sans-serif;
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #f5f5f5;
+      * {
+        box-sizing: border-box;
       }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 15px;
+        background-color: #f8f9fa;
+        line-height: 1.4;
+      }
+
       .container {
         background: white;
-        padding: 30px;
-        border-radius: 10px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       }
+
       h1 {
         color: #2c3e50;
         text-align: center;
-        margin-bottom: 30px;
+        margin: 0 0 20px 0;
+        font-size: 24px;
+        font-weight: 600;
       }
+
+      .inputs-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 15px;
+        margin-bottom: 15px;
+      }
+
       .input-group {
-        margin-bottom: 20px;
         position: relative;
       }
+
       label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
-        color: #34495e;
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 6px;
+        margin-bottom: 4px;
+        font-weight: 500;
+        color: #34495e;
+        font-size: 14px;
       }
+
       input[type="number"],
       select {
         width: 100%;
-        padding: 10px;
-        border: 2px solid #ddd;
-        border-radius: 5px;
-        font-size: 16px;
-        box-sizing: border-box;
+        padding: 8px 12px;
+        border: 1.5px solid #ddd;
+        border-radius: 4px;
+        font-size: 15px;
+        transition: border-color 0.2s;
       }
+
       input[type="number"]:focus,
       select:focus {
         border-color: #3498db;
         outline: none;
+        box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.1);
       }
-      .results {
-        background: #ecf0f1;
-        padding: 20px;
-        border-radius: 5px;
-        margin-top: 20px;
-      }
-      .result-item {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 10px;
-        padding: 10px;
-        background: white;
-        border-radius: 5px;
-        position: relative;
-      }
-      .result-label {
-        font-weight: bold;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-      .result-value {
-        color: #2c3e50;
-      }
-      .warning {
-        color: #e74c3c;
-        font-weight: bold;
-      }
-      .success {
-        color: #27ae60;
-        font-weight: bold;
-      }
+
       .btn {
         background: #3498db;
         color: white;
-        padding: 12px 30px;
+        padding: 10px 24px;
         border: none;
-        border-radius: 5px;
-        font-size: 16px;
+        border-radius: 4px;
+        font-size: 15px;
         cursor: pointer;
         width: 100%;
-        margin-top: 20px;
+        margin: 15px 0;
+        font-weight: 500;
+        transition: background 0.2s;
       }
+
       .btn:hover {
         background: #2980b9;
       }
 
-      /* Tooltip Styles */
+      .results {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 6px;
+        margin-top: 15px;
+        border: 1px solid #e9ecef;
+      }
+
+      .results h3 {
+        margin: 0 0 12px 0;
+        font-size: 16px;
+        color: #2c3e50;
+      }
+
+      .results-grid {
+        display: grid;
+        gap: 8px;
+      }
+
+      .result-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 12px;
+        background: white;
+        border-radius: 4px;
+        font-size: 14px;
+        border: 1px solid #e9ecef;
+      }
+
+      .result-label {
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex: 1;
+      }
+
+      .result-value {
+        color: #2c3e50;
+        font-weight: 600;
+        text-align: right;
+      }
+
+      .warning {
+        color: #e74c3c;
+      }
+
+      .success {
+        color: #27ae60;
+      }
+
+      .section-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #7f8c8d;
+        margin: 12px 0 6px 0;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      /* Compact Tooltip Styles */
       .tooltip {
         position: relative;
         display: inline-block;
-        cursor: help;
       }
 
       .tooltip-icon {
-        width: 16px;
-        height: 16px;
-        background: #3498db;
+        width: 14px;
+        height: 14px;
+        background: #95a5a6;
         color: white;
         border-radius: 50%;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        font-size: 12px;
+        font-size: 10px;
         font-weight: bold;
         cursor: help;
+        transition: background 0.2s;
+      }
+
+      .tooltip:hover .tooltip-icon {
+        background: #3498db;
       }
 
       .tooltip-text {
         visibility: hidden;
-        width: 280px;
+        width: 260px;
         background-color: #2c3e50;
         color: #fff;
         text-align: left;
-        border-radius: 6px;
-        padding: 12px;
+        border-radius: 4px;
+        padding: 8px 10px;
         position: absolute;
         z-index: 1000;
         bottom: 125%;
         left: 50%;
-        margin-left: -140px;
+        margin-left: -130px;
         opacity: 0;
-        transition: opacity 0.3s;
-        font-size: 14px;
-        line-height: 1.4;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        transition: opacity 0.2s;
+        font-size: 12px;
+        line-height: 1.3;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
       }
 
       .tooltip-text::after {
@@ -143,8 +201,8 @@
         position: absolute;
         top: 100%;
         left: 50%;
-        margin-left: -5px;
-        border-width: 5px;
+        margin-left: -4px;
+        border-width: 4px;
         border-style: solid;
         border-color: #2c3e50 transparent transparent transparent;
       }
@@ -154,11 +212,62 @@
         opacity: 1;
       }
 
-      /* Responsive tooltip positioning */
-      @media (max-width: 600px) {
+      /* Key metrics highlight */
+      .key-metrics {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+
+      .metric-card {
+        background: white;
+        padding: 10px;
+        border-radius: 4px;
+        text-align: center;
+        border: 1px solid #e9ecef;
+      }
+
+      .metric-value {
+        font-size: 18px;
+        font-weight: 700;
+        margin-bottom: 2px;
+      }
+
+      .metric-label {
+        font-size: 11px;
+        color: #7f8c8d;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        .inputs-grid {
+          grid-template-columns: 1fr;
+        }
+
         .tooltip-text {
-          width: 250px;
-          margin-left: -125px;
+          width: 220px;
+          margin-left: -110px;
+        }
+
+        .key-metrics {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 480px) {
+        body {
+          padding: 10px;
+        }
+
+        .container {
+          padding: 15px;
+        }
+
+        h1 {
+          font-size: 20px;
         }
       }
     </style>
@@ -167,134 +276,148 @@
     <div class="container">
       <h1>NZ First Home Buyer Loan Calculator</h1>
 
-      <div class="input-group">
-        <label for="income">
-          Gross Annual Income ($)
-          <div class="tooltip">
-            <span class="tooltip-icon">?</span>
-            <span class="tooltip-text"
-              >Your total income before tax and deductions. Include salary,
-              wages, bonuses, and any other regular income. Banks typically
-              require 3-6 months of payslips as proof.</span
-            >
-          </div>
-        </label>
-        <input type="number" id="income" value="80000" min="0" step="1000" />
-      </div>
+      <div class="inputs-grid">
+        <div class="input-group">
+          <label for="income">
+            Gross Annual Income ($)
+            <div class="tooltip">
+              <span class="tooltip-icon">?</span>
+              <span class="tooltip-text"
+                >Your total income before tax and deductions. Include salary,
+                wages, bonuses, and any other regular income. Banks typically
+                require 3-6 months of payslips as proof.</span
+              >
+            </div>
+          </label>
+          <input type="number" id="income" value="80000" min="0" step="1000" />
+        </div>
 
-      <div class="input-group">
-        <label for="deposit">
-          Available Deposit ($)
-          <div class="tooltip">
-            <span class="tooltip-icon">?</span>
-            <span class="tooltip-text"
-              >The cash you have saved for the property purchase. First home
-              buyers need a minimum 10% deposit, but 20% gives better rates and
-              avoids low equity fees.</span
-            >
-          </div>
-        </label>
-        <input type="number" id="deposit" value="100000" min="0" step="1000" />
-      </div>
+        <div class="input-group">
+          <label for="deposit">
+            Available Deposit ($)
+            <div class="tooltip">
+              <span class="tooltip-icon">?</span>
+              <span class="tooltip-text"
+                >The cash you have saved for the property purchase. First home
+                buyers need a minimum 10% deposit, but 20% gives better rates
+                and avoids low equity fees.</span
+              >
+            </div>
+          </label>
+          <input
+            type="number"
+            id="deposit"
+            value="100000"
+            min="0"
+            step="1000"
+          />
+        </div>
 
-      <div class="input-group">
-        <label for="propertyValue">
-          Target Property Value ($)
-          <div class="tooltip">
-            <span class="tooltip-icon">?</span>
-            <span class="tooltip-text"
-              >The purchase price or estimated value of the property you want to
-              buy. This is used to calculate the loan-to-value ratio
-              (LVR).</span
-            >
-          </div>
-        </label>
-        <input
-          type="number"
-          id="propertyValue"
-          value="800000"
-          min="0"
-          step="10000"
-        />
-      </div>
+        <div class="input-group">
+          <label for="propertyValue">
+            Target Property Value ($)
+            <div class="tooltip">
+              <span class="tooltip-icon">?</span>
+              <span class="tooltip-text"
+                >The purchase price or estimated value of the property you want
+                to buy. This is used to calculate the loan-to-value ratio
+                (LVR).</span
+              >
+            </div>
+          </label>
+          <input
+            type="number"
+            id="propertyValue"
+            value="800000"
+            min="0"
+            step="10000"
+          />
+        </div>
 
-      <div class="input-group">
-        <label for="existingDebts">
-          Existing Debts (monthly payments) ($)
-          <div class="tooltip">
-            <span class="tooltip-icon">?</span>
-            <span class="tooltip-text"
-              >Total monthly payments for credit cards, personal loans, car
-              loans, student loans, and other debts. Banks consider these when
-              assessing your ability to service a mortgage.</span
-            >
-          </div>
-        </label>
-        <input type="number" id="existingDebts" value="500" min="0" step="50" />
-      </div>
+        <div class="input-group">
+          <label for="existingDebts">
+            Existing Debts (monthly) ($)
+            <div class="tooltip">
+              <span class="tooltip-icon">?</span>
+              <span class="tooltip-text"
+                >Total monthly payments for credit cards, personal loans, car
+                loans, student loans, and other debts. Banks consider these when
+                assessing your ability to service a mortgage.</span
+              >
+            </div>
+          </label>
+          <input
+            type="number"
+            id="existingDebts"
+            value="500"
+            min="0"
+            step="50"
+          />
+        </div>
 
-      <div class="input-group">
-        <label for="livingExpenses">
-          Monthly Living Expenses ($)
-          <div class="tooltip">
-            <span class="tooltip-icon">?</span>
-            <span class="tooltip-text"
-              >Your monthly living costs including groceries, utilities,
-              transport, insurance, entertainment, and other regular expenses.
-              Banks use either your declared expenses or their own benchmark
-              figures.</span
-            >
-          </div>
-        </label>
-        <input
-          type="number"
-          id="livingExpenses"
-          value="2000"
-          min="0"
-          step="100"
-        />
-      </div>
+        <div class="input-group">
+          <label for="livingExpenses">
+            Monthly Living Expenses ($)
+            <div class="tooltip">
+              <span class="tooltip-icon">?</span>
+              <span class="tooltip-text"
+                >Your monthly living costs including groceries, utilities,
+                transport, insurance, entertainment, and other regular expenses.
+                Banks use either your declared expenses or their own benchmark
+                figures.</span
+              >
+            </div>
+          </label>
+          <input
+            type="number"
+            id="livingExpenses"
+            value="2000"
+            min="0"
+            step="100"
+          />
+        </div>
 
-      <div class="input-group">
-        <label for="interestRate">
-          Current Interest Rate (%)
-          <div class="tooltip">
-            <span class="tooltip-icon">?</span>
-            <span class="tooltip-text"
-              >The current mortgage interest rate offered by banks. This varies
-              by bank and loan type. The calculator also stress tests at 2.5%
-              above this rate.</span
-            >
-          </div>
-        </label>
-        <input
-          type="number"
-          id="interestRate"
-          value="6.5"
-          min="0"
-          max="15"
-          step="0.1"
-        />
-      </div>
+        <div class="input-group">
+          <label for="interestRate">
+            Current Interest Rate (%)
+            <div class="tooltip">
+              <span class="tooltip-icon">?</span>
+              <span class="tooltip-text"
+                >The current mortgage interest rate offered by banks. This
+                varies by bank and loan type. The calculator also stress tests
+                at 2.5% above this rate.</span
+              >
+            </div>
+          </label>
+          <input
+            type="number"
+            id="interestRate"
+            value="6.5"
+            min="0"
+            max="15"
+            step="0.1"
+          />
+        </div>
 
-      <div class="input-group">
-        <label for="dtiLimit">
-          DTI Limit (Income Multiple)
-          <div class="tooltip">
-            <span class="tooltip-icon">?</span>
-            <span class="tooltip-text"
-              >Debt-to-Income ratio limit. RBNZ is implementing DTI
-              restrictions, typically 6-7x gross annual income for
-              owner-occupiers. This limits how much you can borrow relative to
-              your income.</span
-            >
-          </div>
-        </label>
-        <select id="dtiLimit">
-          <option value="6">6x Income</option>
-          <option value="6.5" selected>6.5x Income</option>
-          <option value="7">7x Income</option>
-        </select>
+        <div class="input-group">
+          <label for="dtiLimit">
+            DTI Limit (Income Multiple)
+            <div class="tooltip">
+              <span class="tooltip-icon">?</span>
+              <span class="tooltip-text"
+                >Debt-to-Income ratio limit. RBNZ is implementing DTI
+                restrictions, typically 6-7x gross annual income for
+                owner-occupiers. This limits how much you can borrow relative to
+                your income.</span
+              >
+            </div>
+          </label>
+          <select id="dtiLimit">
+            <option value="6">6x Income</option>
+            <option value="6.5" selected>6.5x Income</option>
+            <option value="7">7x Income</option>
+          </select>
+        </div>
       </div>
 
       <button class="btn" onclick="calculateLoan()">
@@ -303,7 +426,11 @@
 
       <div class="results" id="results" style="display: none">
         <h3>Loan Assessment Results</h3>
-        <div id="resultContent"></div>
+
+        <div class="key-metrics" id="keyMetrics"></div>
+
+        <div class="section-title">Assessment Details</div>
+        <div class="results-grid" id="resultContent"></div>
       </div>
     </div>
 
@@ -342,21 +469,24 @@
         // Calculate max loan based on monthly payment capacity
         const monthlyStressRate = stressTestRate / 100 / 12;
         const loanTermMonths = 30 * 12; // 30 years
-        const maxLoanServiceability =
+        const maxLoanServiceability = Math.max(
+          0,
           maxMonthlyPayment *
-          ((1 - Math.pow(1 + monthlyStressRate, -loanTermMonths)) /
-            monthlyStressRate);
+            ((1 - Math.pow(1 + monthlyStressRate, -loanTermMonths)) /
+              monthlyStressRate)
+        );
 
         // 4. Required loan amount
-        const requiredLoan = propertyValue - deposit;
+        const requiredLoan = Math.max(0, propertyValue - deposit);
 
         // Find the limiting factor
         const maxLoan = Math.min(maxLoanDTI, maxLoanLVR, maxLoanServiceability);
 
         // Check if loan is feasible
-        const canAfford = requiredLoan <= maxLoan;
-        const lvr = (requiredLoan / propertyValue) * 100;
-        const dti = requiredLoan / income;
+        const canAfford = requiredLoan <= maxLoan && requiredLoan > 0;
+        const lvr =
+          propertyValue > 0 ? (requiredLoan / propertyValue) * 100 : 0;
+        const dti = income > 0 ? requiredLoan / income : 0;
 
         // Display results
         displayResults({
@@ -380,6 +510,7 @@
       }
 
       function calculateMonthlyPayment(loanAmount, rate) {
+        if (loanAmount <= 0 || rate <= 0) return 0;
         const monthlyRate = rate / 100 / 12;
         const months = 30 * 12;
         return (
@@ -390,30 +521,47 @@
 
       function displayResults(results) {
         const resultsDiv = document.getElementById("results");
+        const keyMetricsDiv = document.getElementById("keyMetrics");
         const contentDiv = document.getElementById("resultContent");
 
-        let html = `
-                <div class="result-item">
-                    <span class="result-label">
-                        Maximum Loan Amount:
-                        <div class="tooltip">
-                            <span class="tooltip-icon">?</span>
-                            <span class="tooltip-text">The maximum amount you can borrow based on the most restrictive of the three criteria: DTI limit, LVR limit, or serviceability test.</span>
-                        </div>
-                    </span>
-                    <span class="result-value ${
+        // Key metrics cards
+        const keyMetricsHtml = `
+                <div class="metric-card">
+                    <div class="metric-value ${
                       results.canAfford ? "success" : "warning"
                     }">
-                        $${results.maxLoan.toLocaleString()}
-                    </span>
+                        ${results.canAfford ? "✓" : "✗"}
+                    </div>
+                    <div class="metric-label">Status</div>
                 </div>
-                
+                <div class="metric-card">
+                    <div class="metric-value">$${(
+                      results.maxLoan / 1000
+                    ).toFixed(0)}k</div>
+                    <div class="metric-label">Max Loan</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value ${
+                      results.lvr <= 90 ? "success" : "warning"
+                    }">
+                        ${results.lvr.toFixed(1)}%
+                    </div>
+                    <div class="metric-label">LVR</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">${results.dti.toFixed(1)}x</div>
+                    <div class="metric-label">DTI</div>
+                </div>
+            `;
+
+        // Detailed results
+        const detailsHtml = `
                 <div class="result-item">
                     <span class="result-label">
-                        Required Loan:
+                        Required Loan
                         <div class="tooltip">
                             <span class="tooltip-icon">?</span>
-                            <span class="tooltip-text">The amount you need to borrow (Property Value - Deposit). This must be less than your maximum loan amount for approval.</span>
+                            <span class="tooltip-text">Amount you need to borrow (Property Value - Deposit)</span>
                         </div>
                     </span>
                     <span class="result-value">$${results.requiredLoan.toLocaleString()}</span>
@@ -421,64 +569,27 @@
                 
                 <div class="result-item">
                     <span class="result-label">
-                        Loan Feasibility:
+                        Monthly Payment
                         <div class="tooltip">
                             <span class="tooltip-icon">?</span>
-                            <span class="tooltip-text">Whether your required loan is within your maximum borrowing capacity. Green = likely approval, Red = likely decline.</span>
+                            <span class="tooltip-text">Monthly mortgage payment at current rate (30-year term)</span>
                         </div>
                     </span>
-                    <span class="result-value ${
-                      results.canAfford ? "success" : "warning"
-                    }">
-                        ${results.canAfford ? "✓ APPROVED" : "✗ DECLINED"}
-                    </span>
+                    <span class="result-value">$${Math.round(
+                      results.monthlyPayment
+                    ).toLocaleString()}</span>
                 </div>
                 
                 <div class="result-item">
                     <span class="result-label">
-                        Loan-to-Value Ratio:
+                        Stress Test Payment
                         <div class="tooltip">
                             <span class="tooltip-icon">?</span>
-                            <span class="tooltip-text">The percentage of the property value you're borrowing. First home buyers can borrow up to 90% LVR. Higher LVR means higher risk and potentially higher rates.</span>
-                        </div>
-                    </span>
-                    <span class="result-value ${
-                      results.lvr <= 90 ? "success" : "warning"
-                    }">
-                        ${results.lvr.toFixed(1)}% ${
-          results.lvr <= 90 ? "(OK)" : "(TOO HIGH)"
-        }
-                    </span>
-                </div>
-                
-                <div class="result-item">
-                    <span class="result-label">
-                        Debt-to-Income Ratio:
-                        <div class="tooltip">
-                            <span class="tooltip-icon">?</span>
-                            <span class="tooltip-text">Your total debt divided by your annual income. RBNZ DTI limits are typically 6-7x for owner-occupiers. Lower ratios indicate better financial health.</span>
-                        </div>
-                    </span>
-                    <span class="result-value">${results.dti.toFixed(1)}x</span>
-                </div>
-                
-                <div class="result-item">
-                    <span class="result-label">
-                        Monthly Payment (current rate):
-                        <div class="tooltip">
-                            <span class="tooltip-icon">?</span>
-                            <span class="tooltip-text">Your monthly mortgage payment at the current interest rate over a 30-year term. This doesn't include rates, insurance, or maintenance costs.</span>
-                        </div>
-                    </span>
-                    <span class="result-value">$${results.monthlyPayment.toLocaleString()}</span>
-                </div>
-                
-                <div class="result-item">
-                    <span class="result-label">
-                        Stress Test Payment:
-                        <div class="tooltip">
-                            <span class="tooltip-icon">?</span>
-                            <span class="tooltip-text">Your monthly payment at a higher rate (current + 2.5%). Banks test if you can still afford payments if rates rise. Must be within your payment capacity.</span>
+                            <span class="tooltip-text">Payment at +2.5% rate (${(
+                              parseFloat(
+                                document.getElementById("interestRate").value
+                              ) + 2.5
+                            ).toFixed(1)}%)</span>
                         </div>
                     </span>
                     <span class="result-value ${
@@ -487,46 +598,54 @@
                         ? "success"
                         : "warning"
                     }">
-                        $${results.stressTestPayment.toLocaleString()}
+                        $${Math.round(
+                          results.stressTestPayment
+                        ).toLocaleString()}
                     </span>
                 </div>
                 
-                <h4>Limiting Factors:</h4>
+                <div class="section-title">Lending Limits</div>
+                
                 <div class="result-item">
                     <span class="result-label">
-                        DTI Limit:
+                        DTI Limit
                         <div class="tooltip">
                             <span class="tooltip-icon">?</span>
-                            <span class="tooltip-text">Maximum loan based on your income multiple (${
+                            <span class="tooltip-text">Max loan: ${
                               document.getElementById("dtiLimit").value
-                            }x your gross annual income).</span>
+                            }x your income</span>
                         </div>
                     </span>
                     <span class="result-value">$${results.maxLoanDTI.toLocaleString()}</span>
                 </div>
+                
                 <div class="result-item">
                     <span class="result-label">
-                        LVR Limit (90%):
+                        LVR Limit (90%)
                         <div class="tooltip">
                             <span class="tooltip-icon">?</span>
-                            <span class="tooltip-text">Maximum loan based on 90% of property value (first home buyer LVR limit). The remaining 10% must be your deposit.</span>
+                            <span class="tooltip-text">Max loan: 90% of property value</span>
                         </div>
                     </span>
                     <span class="result-value">$${results.maxLoanLVR.toLocaleString()}</span>
                 </div>
+                
                 <div class="result-item">
                     <span class="result-label">
-                        Serviceability Limit:
+                        Serviceability Limit
                         <div class="tooltip">
                             <span class="tooltip-icon">?</span>
-                            <span class="tooltip-text">Maximum loan based on your ability to make payments after stress testing at higher rates and accounting for living expenses and other debts.</span>
+                            <span class="tooltip-text">Max loan based on payment capacity after stress testing</span>
                         </div>
                     </span>
-                    <span class="result-value">$${results.maxLoanServiceability.toLocaleString()}</span>
+                    <span class="result-value">$${Math.round(
+                      results.maxLoanServiceability
+                    ).toLocaleString()}</span>
                 </div>
             `;
 
-        contentDiv.innerHTML = html;
+        keyMetricsDiv.innerHTML = keyMetricsHtml;
+        contentDiv.innerHTML = detailsHtml;
         resultsDiv.style.display = "block";
       }
 
