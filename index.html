@@ -38,7 +38,7 @@
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         gap: 15px;
-        margin-bottom: 15px;
+        margin-bottom: 20px;
       }
 
       .input-group {
@@ -70,18 +70,57 @@
         border-color: #3498db;
         outline: none;
         box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.1);
-      }
+       }
 
-      .btn {
-        background: #3498db;
-        color: white;
-        padding: 10px 24px;
+       #theme-toggle {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: none;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+        color: #34495e; /* Default color */
+        transition: color 0.2s;
+        padding: 5px;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10; /* Ensure it's above other content */
+       }
+
+       #theme-toggle:hover {
+        color: #2c3e50;
+        background-color: rgba(0, 0, 0, 0.05);
+       }
+
+       body.dark-mode #theme-toggle {
+        color: #e0e0e0; /* Dark mode color */
+       }
+
+       body.dark-mode #theme-toggle:hover {
+        color: #ffffff;
+        background-color: rgba(255, 255, 255, 0.1);
+       }
+
+       #theme-icon {
+        display: block;
+        line-height: 1;
+       }
+
+       .btn {
+         background: #3498db;
+         color: white;
+         padding: 10px 24px;
         border: none;
         border-radius: 4px;
         font-size: 15px;
         cursor: pointer;
         width: 100%;
-        margin: 15px 0;
+        margin: 20px 0;
         font-weight: 500;
         transition: background 0.2s;
       }
@@ -271,10 +310,113 @@
         }
       }
     </style>
+    <style>
+      /* Dark Mode Styles */
+      body.dark-mode {
+        background-color: #1a1a1a;
+        color: #e0e0e0;
+      }
+
+      body.dark-mode .container {
+        background: #2c2c2c;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      }
+
+      body.dark-mode h1,
+      body.dark-mode .result-value {
+        color: #ffffff;
+      }
+
+      body.dark-mode label {
+        color: #cccccc;
+      }
+
+      body.dark-mode input[type="number"],
+      body.dark-mode select {
+        background-color: #3a3a3a;
+        color: #e0e0e0;
+        border-color: #555;
+      }
+
+      body.dark-mode input[type="number"]:focus,
+      body.dark-mode select:focus {
+        border-color: #3498db;
+        box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+      }
+
+      body.dark-mode .btn {
+        background: #3498db;
+        color: white;
+      }
+
+      body.dark-mode .btn:hover {
+        background: #2980b9;
+      }
+
+      body.dark-mode .results {
+        background: #2c2c2c;
+        border-color: #555;
+      }
+
+      body.dark-mode .results h3 {
+        color: #ffffff;
+      }
+
+      body.dark-mode .result-item {
+        background: #3a3a3a;
+        border-color: #555;
+      }
+
+      body.dark-mode .result-label {
+        color: #e0e0e0;
+      }
+
+      body.dark-mode .section-title {
+        color: #aaaaaa;
+      }
+
+      body.dark-mode .tooltip-icon {
+        background: #777;
+      }
+
+      body.dark-mode .tooltip:hover .tooltip-icon {
+        background: #3498db;
+      }
+
+      body.dark-mode .tooltip-text {
+        background-color: #555;
+        color: #fff;
+      }
+
+      body.dark-mode .tooltip-text::after {
+        border-color: #555 transparent transparent transparent;
+      }
+
+      body.dark-mode .key-metrics .metric-card {
+        background: #3a3a3a;
+        border-color: #555;
+      }
+
+      body.dark-mode .metric-label {
+        color: #aaaaaa;
+      }
+
+      body.dark-mode .warning {
+        color: #e74c3c; /* Keep warning color consistent */
+      }
+
+      body.dark-mode .success {
+        color: #27ae60; /* Keep success color consistent */
+      }
+    </style>
   </head>
   <body>
     <div class="container">
       <h1>NZ First Home Buyer Loan Calculator</h1>
+
+      <button id="theme-toggle" aria-label="Toggle dark mode">
+        <span id="theme-icon">☀️</span>
+      </button>
 
       <div class="inputs-grid">
         <div class="input-group">
@@ -283,10 +425,8 @@
             <div class="tooltip">
               <span class="tooltip-icon">?</span>
               <span class="tooltip-text"
-                >Your total income before tax and deductions. Include salary,
-                wages, bonuses, and any other regular income. Banks typically
-                require 3-6 months of payslips as proof.</span
-              >
+                >Total income before tax (salary, wages, bonuses). Banks require 3-6 months payslips.</span
+                >
             </div>
           </label>
           <input type="number" id="income" value="80000" min="0" step="1000" />
@@ -298,10 +438,8 @@
             <div class="tooltip">
               <span class="tooltip-icon">?</span>
               <span class="tooltip-text"
-                >The cash you have saved for the property purchase. First home
-                buyers need a minimum 10% deposit, but 20% gives better rates
-                and avoids low equity fees.</span
-              >
+                >Cash saved for purchase. Minimum 10% deposit needed, 20% for better rates/no low equity fees.</span
+                >
             </div>
           </label>
           <input
@@ -319,10 +457,8 @@
             <div class="tooltip">
               <span class="tooltip-icon">?</span>
               <span class="tooltip-text"
-                >The purchase price or estimated value of the property you want
-                to buy. This is used to calculate the loan-to-value ratio
-                (LVR).</span
-              >
+                >Purchase price or estimated value. Used for Loan-to-Value Ratio (LVR) calculation.</span
+                >
             </div>
           </label>
           <input
@@ -340,10 +476,8 @@
             <div class="tooltip">
               <span class="tooltip-icon">?</span>
               <span class="tooltip-text"
-                >Total monthly payments for credit cards, personal loans, car
-                loans, student loans, and other debts. Banks consider these when
-                assessing your ability to service a mortgage.</span
-              >
+                >Total monthly payments for credit cards, loans, etc. Banks assess these for mortgage serviceability.</span
+                >
             </div>
           </label>
           <input
@@ -361,11 +495,8 @@
             <div class="tooltip">
               <span class="tooltip-icon">?</span>
               <span class="tooltip-text"
-                >Your monthly living costs including groceries, utilities,
-                transport, insurance, entertainment, and other regular expenses.
-                Banks use either your declared expenses or their own benchmark
-                figures.</span
-              >
+                >Monthly costs (groceries, utilities, transport, etc.). Banks use declared or benchmark figures.</span
+                >
             </div>
           </label>
           <input
@@ -383,10 +514,8 @@
             <div class="tooltip">
               <span class="tooltip-icon">?</span>
               <span class="tooltip-text"
-                >The current mortgage interest rate offered by banks. This
-                varies by bank and loan type. The calculator also stress tests
-                at 2.5% above this rate.</span
-              >
+                >Current mortgage rate. Varies by bank/loan type. Calculator stress tests at +2.5%.</span
+                >
             </div>
           </label>
           <input
@@ -405,11 +534,8 @@
             <div class="tooltip">
               <span class="tooltip-icon">?</span>
               <span class="tooltip-text"
-                >Debt-to-Income ratio limit. RBNZ is implementing DTI
-                restrictions, typically 6-7x gross annual income for
-                owner-occupiers. This limits how much you can borrow relative to
-                your income.</span
-              >
+                >Debt-to-Income ratio limit (e.g., 6-7x income). Limits borrowing based on income.</span
+                >
             </div>
           </label>
           <select id="dtiLimit">
@@ -424,7 +550,7 @@
         Calculate Maximum Loan
       </button>
 
-      <div class="results" id="results" style="display: none">
+      <div class="results" id="results">
         <h3>Loan Assessment Results</h3>
 
         <div class="key-metrics" id="keyMetrics"></div>
@@ -527,6 +653,74 @@
         // Key metrics cards
         const keyMetricsHtml = `
                 <div class="metric-card">
+                    <div class="metric-value">-</div>
+                    <div class="metric-label">Status</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">-$</div>
+                    <div class="metric-label">Max Loan</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">-</div>
+                    <div class="metric-label">LVR</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">-</div>
+                    <div class="metric-label">DTI</div>
+                </div>
+            `;
+
+        // Detailed results
+        const detailsHtml = `
+                <div class="result-item">
+                    <span class="result-label">Required Loan</span>
+                    <span class="result-value">-</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Monthly Payment</span>
+                    <span class="result-value">-</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Stress Test Payment</span>
+                    <span class="result-value">-</span>
+                </div>
+                <div class="section-title">Lending Limits</div>
+                <div class="result-item">
+                    <span class="result-label">DTI Limit</span>
+                    <span class="result-value">-</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">LVR Limit (90%)</span>
+                    <span class="result-value">-</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Serviceability Limit</span>
+                    <span class="result-value">-</span>
+                </div>
+            `;
+
+        keyMetricsDiv.innerHTML = keyMetricsHtml;
+        contentDiv.innerHTML = detailsHtml;
+      }
+
+      function calculateMonthlyPayment(loanAmount, rate) {
+        if (loanAmount <= 0 || rate <= 0) return 0;
+        const monthlyRate = rate / 100 / 12;
+        const months = 30 * 12;
+        return (
+          (loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, months))) /
+          (Math.pow(1 + monthlyRate, months) - 1)
+        );
+      }
+
+      function displayResults(results) {
+        const resultsDiv = document.getElementById("results");
+        const keyMetricsDiv = document.getElementById("keyMetrics");
+        const contentDiv = document.getElementById("resultContent");
+
+        // Key metrics cards
+        const keyMetricsHtml = `
+                <div class="metric-card">
                     <div class="metric-value ${
                       results.canAfford ? "success" : "warning"
                     }">
@@ -535,9 +729,7 @@
                     <div class="metric-label">Status</div>
                 </div>
                 <div class="metric-card">
-                    <div class="metric-value">$${(
-                      results.maxLoan / 1000
-                    ).toFixed(0)}k</div>
+                    <div class="metric-value">$${Math.round(results.maxLoan).toLocaleString()}</div>
                     <div class="metric-label">Max Loan</div>
                 </div>
                 <div class="metric-card">
@@ -646,18 +838,109 @@
 
         keyMetricsDiv.innerHTML = keyMetricsHtml;
         contentDiv.innerHTML = detailsHtml;
-        resultsDiv.style.display = "block";
       }
 
       // Calculate on page load
       window.onload = function () {
-        calculateLoan();
+        // Initial display of placeholder results
+        displayPlaceholderResults();
+        // Add event listeners for real-time calculation
+        document.querySelectorAll("input, select").forEach((element) => {
+          element.addEventListener("input", calculateLoan);
+        });
       };
+
+      function displayPlaceholderResults() {
+        const keyMetricsDiv = document.getElementById("keyMetrics");
+        const contentDiv = document.getElementById("resultContent");
+
+        const keyMetricsHtml = `
+                <div class="metric-card">
+                    <div class="metric-value">-</div>
+                    <div class="metric-label">Status</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">-$</div>
+                    <div class="metric-label">Max Loan</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">-</div>
+                    <div class="metric-label">LVR</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">-</div>
+                    <div class="metric-label">DTI</div>
+                </div>
+            `;
+
+        const detailsHtml = `
+                <div class="result-item">
+                    <span class="result-label">Required Loan</span>
+                    <span class="result-value">-</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Monthly Payment</span>
+                    <span class="result-value">-</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Stress Test Payment</span>
+                    <span class="result-value">-</span>
+                </div>
+                <div class="section-title">Lending Limits</div>
+                <div class="result-item">
+                    <span class="result-label">DTI Limit</span>
+                    <span class="result-value">-</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">LVR Limit (90%)</span>
+                    <span class="result-value">-</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Serviceability Limit</span>
+                    <span class="result-value">-</span>
+                </div>
+            `;
+
+        keyMetricsDiv.innerHTML = keyMetricsHtml;
+        contentDiv.innerHTML = detailsHtml;
+      }
 
       // Add event listeners for real-time calculation
       document.querySelectorAll("input, select").forEach((element) => {
         element.addEventListener("input", calculateLoan);
       });
+
+    </script>
+
+    <script>
+      // Theme toggle functionality
+      const themeToggle = document.getElementById("theme-toggle");
+      const themeIcon = document.getElementById("theme-icon");
+
+      function setThemeIcon(isDarkMode) {
+        themeIcon.textContent = isDarkMode ? "🌙" : "☀️";
+      }
+
+      themeToggle.addEventListener("click", () => {
+        document.body.classList.toggle("dark-mode");
+        const isDarkMode = document.body.classList.contains("dark-mode");
+        setThemeIcon(isDarkMode);
+        // Optional: Save theme preference to localStorage
+        if (isDarkMode) {
+          localStorage.setItem("theme", "dark");
+        } else {
+          localStorage.setItem("theme", "light");
+        }
+      });
+
+      // Optional: Apply saved theme on page load
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme === "dark") {
+        document.body.classList.add("dark-mode");
+        setThemeIcon(true);
+      } else {
+        setThemeIcon(false);
+      }
     </script>
   </body>
 </html>
