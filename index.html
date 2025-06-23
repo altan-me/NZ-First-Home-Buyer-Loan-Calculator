@@ -111,6 +111,34 @@
         line-height: 1;
        }
 
+       /* Share Button Styles */
+       #share-link-button {
+        background: #2ecc71; /* A distinct green color */
+        color: white;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        font-size: 14px;
+        cursor: pointer;
+        width: auto;
+        margin-left: 10px; /* Add some space between buttons */
+        font-weight: 500;
+        transition: background 0.2s;
+       }
+
+       #share-link-button:hover {
+        background: #27ae60; /* Darker green on hover */
+       }
+
+       body.dark-mode #share-link-button {
+        background: #27ae60; /* Dark mode green */
+        color: white;
+       }
+
+       body.dark-mode #share-link-button:hover {
+        background: #229954; /* Darker green on hover in dark mode */
+       }
+
        .btn {
          background: #3498db;
          color: white;
@@ -123,7 +151,31 @@
         margin: 20px 0;
         font-weight: 500;
         transition: background 0.2s;
-      }
+       }
+
+       /* Adjustments for buttons side-by-side */
+       .button-group {
+         display: flex;
+         justify-content: center;
+         margin-top: 20px;
+         margin-bottom: 20px;
+       }
+
+       .button-group .btn {
+         margin: 0 5px; /* Adjust margin for spacing between buttons */
+         width: auto; /* Allow buttons to size based on content */
+         flex-grow: 1; /* Allow buttons to grow and fill space */
+       }
+
+       @media (max-width: 480px) {
+         .button-group {
+           flex-direction: column;
+         }
+         .button-group .btn {
+           width: 100%;
+           margin: 5px 0;
+         }
+       }
 
       .btn:hover {
         background: #2980b9;
@@ -546,13 +598,14 @@
         </div>
       </div>
 
-      <button class="btn" onclick="calculateLoan()">
-        Calculate Maximum Loan
-      </button>
-
-      <button class="btn" id="shareLinkBtn">
-        Copy Shareable Link
-      </button>
+      <div class="button-group">
+        <button class="btn" onclick="calculateLoan()">
+          Calculate Maximum Loan
+        </button>
+        <button class="btn" id="share-link-button" aria-label="Copy shareable link">
+          Copy Shareable Link
+        </button>
+      </div>
 
       <div class="results" id="results">
         <h3>Loan Assessment Results</h3>
@@ -970,14 +1023,15 @@
       }
 
       // Share link button functionality
-      const shareLinkBtn = document.getElementById("shareLinkBtn");
+      const shareLinkBtn = document.getElementById("share-link-button");
+
       shareLinkBtn.addEventListener("click", () => {
         const inputs = getInputs();
         const shareableLink = encodeInputsToUrl(inputs);
 
         navigator.clipboard.writeText(shareableLink).then(() => {
           const originalText = shareLinkBtn.textContent;
-          shareLinkBtn.textContent = "Copied!";
+          shareLinkBtn.textContent = "Link Copied!";
           setTimeout(() => {
             shareLinkBtn.textContent = originalText;
           }, 2000);
