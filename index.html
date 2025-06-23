@@ -20,6 +20,7 @@
       }
 
       .container {
+        position: relative; /* Added for theme toggle positioning */
         background: white;
         padding: 25px;
         border-radius: 8px;
@@ -30,6 +31,7 @@
         color: #2c3e50;
         text-align: center;
         margin: 0 0 20px 0;
+        padding-right: 50px; /* Make space for the toggle */
         font-size: 24px;
         font-weight: 600;
       }
@@ -74,8 +76,8 @@
 
        #theme-toggle {
         position: absolute;
-        top: 15px;
-        right: 15px;
+        top: 10px; /* Adjusted top position */
+        right: 10px; /* Adjusted right position */
         background: none;
         border: none;
         font-size: 20px;
@@ -359,6 +361,7 @@
 
         h1 {
           font-size: 20px;
+          padding-right: 45px; /* Adjust padding for smaller screens */
         }
       }
     </style>
