@@ -550,6 +550,10 @@
         Calculate Maximum Loan
       </button>
 
+      <button class="btn" id="shareLinkBtn">
+        Copy Shareable Link
+      </button>
+
       <div class="results" id="results">
         <h3>Loan Assessment Results</h3>
 
@@ -848,6 +852,9 @@
         document.querySelectorAll("input, select").forEach((element) => {
           element.addEventListener("input", calculateLoan);
         });
+
+        // Load inputs from URL on page load
+        loadInputsFromUrl();
       };
 
       function displayPlaceholderResults() {
@@ -910,6 +917,75 @@
         element.addEventListener("input", calculateLoan);
       });
 
+    </script>
+
+    <script>
+      // Function to get all input values
+      function getInputs() {
+        const inputs = {};
+        document.querySelectorAll(".inputs-grid input, .inputs-grid select").forEach(element => {
+          inputs[element.id] = element.value;
+        });
+        return inputs;
+      }
+
+      // Function to set input values
+      function setInputs(values) {
+        for (const id in values) {
+          const element = document.getElementById(id);
+          if (element) {
+            element.value = values[id];
+          }
+        }
+      }
+
+      // Function to encode inputs to URL
+      function encodeInputsToUrl(inputs) {
+        const params = new URLSearchParams();
+        for (const key in inputs) {
+          params.append(key, inputs[key]);
+        }
+        return `${window.location.origin}${window.location.pathname}?${params.toString()}`;
+      }
+
+      // Function to decode inputs from URL
+      function decodeInputsFromUrl() {
+        const params = new URLSearchParams(window.location.search);
+        const inputs = {};
+        for (const [key, value] of params.entries()) {
+          inputs[key] = value;
+        }
+        return inputs;
+      }
+
+      // Function to load inputs from URL on page load
+      function loadInputsFromUrl() {
+        const inputs = decodeInputsFromUrl();
+        if (Object.keys(inputs).length > 0) {
+          setInputs(inputs);
+          calculateLoan(); // Recalculate with loaded inputs
+        } else {
+          calculateLoan(); // Initial calculation if no URL parameters
+        }
+      }
+
+      // Share link button functionality
+      const shareLinkBtn = document.getElementById("shareLinkBtn");
+      shareLinkBtn.addEventListener("click", () => {
+        const inputs = getInputs();
+        const shareableLink = encodeInputsToUrl(inputs);
+
+        navigator.clipboard.writeText(shareableLink).then(() => {
+          const originalText = shareLinkBtn.textContent;
+          shareLinkBtn.textContent = "Copied!";
+          setTimeout(() => {
+            shareLinkBtn.textContent = originalText;
+          }, 2000);
+        }).catch(err => {
+          console.error("Failed to copy link: ", err);
+          alert("Failed to copy link. Please try again or copy manually: " + shareableLink);
+        });
+      });
     </script>
 
     <script>
