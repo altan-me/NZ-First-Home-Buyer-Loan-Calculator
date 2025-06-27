@@ -364,6 +364,46 @@
           padding-right: 45px; /* Adjust padding for smaller screens */
         }
       }
+
+      /* Modern switch for weekly toggle */
+      .switch-label {
+        position: relative;
+        user-select: none;
+      }
+      .switch-label .switch-slider {
+        width: 34px;
+        height: 18px;
+        background: #ccc;
+        border-radius: 18px;
+        display: inline-block;
+        position: relative;
+        transition: background 0.2s;
+      }
+      .switch-label input:checked + .switch-slider {
+        background: #3498db;
+      }
+      .switch-label .switch-slider:before {
+        content: '';
+        position: absolute;
+        left: 3px;
+        top: 3px;
+        width: 12px;
+        height: 12px;
+        background: #fff;
+        border-radius: 50%;
+        transition: transform 0.2s;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+      }
+      .switch-label input:checked + .switch-slider:before {
+        transform: translateX(16px);
+      }
+      /* Dark mode for switch */
+      body.dark-mode .switch-label .switch-slider {
+        background: #555;
+      }
+      body.dark-mode .switch-label input:checked + .switch-slider {
+        background: #2980b9;
+      }
     </style>
     <style>
       /* Dark Mode Styles */
@@ -626,7 +666,14 @@
 
         <div class="key-metrics" id="keyMetrics"></div>
 
-        <div class="section-title">Assessment Details</div>
+        <div class="section-title" style="display:flex; align-items:center; justify-content:space-between;">
+          <span>Assessment Details</span>
+          <label class="switch-label" style="display:flex; align-items:center; gap:6px; font-size:13px; cursor:pointer;">
+            <span style="font-size:13px;">Weekly</span>
+            <input type="checkbox" id="toggle-weekly" style="display:none;">
+            <span class="switch-slider"></span>
+          </label>
+        </div>
         <div class="results-grid" id="resultContent"></div>
       </div>
     </div>
@@ -717,77 +764,17 @@
       }
 
       function displayResults(results) {
-        const resultsDiv = document.getElementById("results");
         const keyMetricsDiv = document.getElementById("keyMetrics");
         const contentDiv = document.getElementById("resultContent");
+        const showWeekly = document.getElementById("toggle-weekly")?.checked;
 
-        // Key metrics cards
-        const keyMetricsHtml = `
-                <div class="metric-card">
-                    <div class="metric-value">-</div>
-                    <div class="metric-label">Status</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-value">-$</div>
-                    <div class="metric-label">Max Loan</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-value">-</div>
-                    <div class="metric-label">LVR</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-value">-</div>
-                    <div class="metric-label">DTI</div>
-                </div>
-            `;
-
-        // Detailed results
-        const detailsHtml = `
-                <div class="result-item">
-                    <span class="result-label">Required Loan</span>
-                    <span class="result-value">-</span>
-                </div>
-                <div class="result-item">
-                    <span class="result-label">Monthly Payment</span>
-                    <span class="result-value">-</span>
-                </div>
-                <div class="result-item">
-                    <span class="result-label">Stress Test Payment</span>
-                    <span class="result-value">-</span>
-                </div>
-                <div class="section-title">Lending Limits</div>
-                <div class="result-item">
-                    <span class="result-label">DTI Limit</span>
-                    <span class="result-value">-</span>
-                </div>
-                <div class="result-item">
-                    <span class="result-label">LVR Limit (90%)</span>
-                    <span class="result-value">-</span>
-                </div>
-                <div class="result-item">
-                    <span class="result-label">Serviceability Limit</span>
-                    <span class="result-value">-</span>
-                </div>
-            `;
-
-        keyMetricsDiv.innerHTML = keyMetricsHtml;
-        contentDiv.innerHTML = detailsHtml;
-      }
-
-      function calculateMonthlyPayment(loanAmount, rate) {
-        if (loanAmount <= 0 || rate <= 0) return 0;
-        const monthlyRate = rate / 100 / 12;
-        const months = 30 * 12;
-        return (
-          (loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, months))) /
-          (Math.pow(1 + monthlyRate, months) - 1)
-        );
-      }
-
-      function displayResults(results) {
-        const resultsDiv = document.getElementById("results");
-        const keyMetricsDiv = document.getElementById("keyMetrics");
-        const contentDiv = document.getElementById("resultContent");
+        function formatPayment(amount) {
+          return `$${Math.round(amount).toLocaleString()}`;
+        }
+        const monthlyPayment = results.monthlyPayment;
+        const stressTestPayment = results.stressTestPayment;
+        const weeklyPayment = monthlyPayment * 12 / 52;
+        const weeklyStressPayment = stressTestPayment * 12 / 52;
 
         // Key metrics cards
         const keyMetricsHtml = `
@@ -832,20 +819,18 @@
                 
                 <div class="result-item">
                     <span class="result-label">
-                        Monthly Payment
+                        ${showWeekly ? "Weekly Payment" : "Monthly Payment"}
                         <div class="tooltip">
                             <span class="tooltip-icon">?</span>
-                            <span class="tooltip-text">Monthly mortgage payment at current rate (30-year term)</span>
+                            <span class="tooltip-text">${showWeekly ? "Weekly mortgage payment at current rate (30-year term)" : "Monthly mortgage payment at current rate (30-year term)"}</span>
                         </div>
                     </span>
-                    <span class="result-value">$${Math.round(
-                      results.monthlyPayment
-                    ).toLocaleString()}</span>
+                    <span class="result-value">${formatPayment(showWeekly ? weeklyPayment : monthlyPayment)}</span>
                 </div>
                 
                 <div class="result-item">
                     <span class="result-label">
-                        Stress Test Payment
+                        ${showWeekly ? "Weekly Stress Test Payment" : "Stress Test Payment"}
                         <div class="tooltip">
                             <span class="tooltip-icon">?</span>
                             <span class="tooltip-text">Payment at +2.5% rate (${(
@@ -856,14 +841,12 @@
                         </div>
                     </span>
                     <span class="result-value ${
-                      results.stressTestPayment <=
+                      (showWeekly ? weeklyStressPayment : stressTestPayment) <=
                       results.monthlyPaymentCapacity
                         ? "success"
                         : "warning"
                     }">
-                        $${Math.round(
-                          results.stressTestPayment
-                        ).toLocaleString()}
+                        ${formatPayment(showWeekly ? weeklyStressPayment : stressTestPayment)}
                     </span>
                 </div>
                 
@@ -1079,11 +1062,12 @@
 
       // Optional: Apply saved theme on page load
       const savedTheme = localStorage.getItem("theme");
-      if (savedTheme === "dark") {
+      if (savedTheme === "light") {
+        document.body.classList.remove("dark-mode");
+        setThemeIcon(false);
+      } else {
         document.body.classList.add("dark-mode");
         setThemeIcon(true);
-      } else {
-        setThemeIcon(false);
       }
     </script>
 
