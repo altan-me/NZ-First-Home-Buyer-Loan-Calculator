@@ -763,6 +763,16 @@
         );
       }
 
+      function calculateWeeklyPayment(loanAmount, rate) {
+        if (loanAmount <= 0 || rate <= 0) return 0;
+        const weeklyRate = rate / 100 / 52;
+        const weeks = 30 * 52;
+        return (
+          loanAmount * (weeklyRate * Math.pow(1 + weeklyRate, weeks)) /
+          (Math.pow(1 + weeklyRate, weeks) - 1)
+        );
+      }
+
       function displayResults(results) {
         const keyMetricsDiv = document.getElementById("keyMetrics");
         const contentDiv = document.getElementById("resultContent");
@@ -773,8 +783,8 @@
         }
         const monthlyPayment = results.monthlyPayment;
         const stressTestPayment = results.stressTestPayment;
-        const weeklyPayment = monthlyPayment * 12 / 52;
-        const weeklyStressPayment = stressTestPayment * 12 / 52;
+        const weeklyPayment = calculateWeeklyPayment(results.requiredLoan, parseFloat(document.getElementById("interestRate").value));
+        const weeklyStressPayment = calculateWeeklyPayment(results.requiredLoan, parseFloat(document.getElementById("interestRate").value) + 2.5);
 
         // Key metrics cards
         const keyMetricsHtml = `
@@ -1073,6 +1083,18 @@
 
     <div class="footer-note">
       Made by altan.me with AI Agents
+    </div>
+    <div class="footer-note" style="margin-top:10px; font-size:13px;">
+      <strong>How repayments are calculated:</strong><br>
+      <span style="font-size:12px;">
+        The loan repayment is calculated using the standard amortizing loan formula:<br>
+        <code>Payment = P × [r(1 + r)<sup>n</sup>] / [(1 + r)<sup>n</sup> - 1]</code><br>
+        Where:<br>
+        <b>P</b> = loan amount, <b>r</b> = periodic interest rate, <b>n</b> = total number of payments.<br>
+        <b>Monthly payments:</b> r = annual rate / 12 / 100, n = loan term × 12.<br>
+        <b>Weekly payments:</b> r = annual rate / 52 / 100, n = loan term × 52.<br>
+        Stress test payments use the interest rate +2.5% to check affordability.
+      </span>
     </div>
   </body>
 </html>
