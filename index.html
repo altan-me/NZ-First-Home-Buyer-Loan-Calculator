@@ -880,7 +880,7 @@
                         LVR Limit (90%)
                         <div class="tooltip">
                             <span class="tooltip-icon">?</span>
-                            <span class="tooltip-text">Max loan: 90% of property value</span>
+                            <span class="tooltip-text">LVR stands for Loan-to-Value Ratio. Max loan: 90% of property value</span>
                         </div>
                     </span>
                     <span class="result-value">$${results.maxLoanLVR.toLocaleString()}</span>
@@ -1093,7 +1093,12 @@
         <b>P</b> = loan amount, <b>r</b> = periodic interest rate, <b>n</b> = total number of payments.<br>
         <b>Monthly payments:</b> r = annual rate / 12 / 100, n = loan term × 12.<br>
         <b>Weekly payments:</b> r = annual rate / 52 / 100, n = loan term × 52.<br>
-        Stress test payments use the interest rate +2.5% to check affordability.
+        <br>
+        <strong>How the Serviceability Limit is calculated:</strong><br>
+        <b>Step 1:</b> Monthly payment capacity = (Gross monthly income) - (existing debts) - (living expenses)<br>
+        <b>Step 2:</b> Maximum allowed payment = Monthly payment capacity × 0.8 (for a conservative buffer)<br>
+        <b>Step 3:</b> The maximum loan is the highest loan amount where the stress-tested payment (using the formula above at interest rate +2.5%) does not exceed the maximum allowed payment.<br>
+        <b>Formula:</b> <code>Max Loan = Max Payment × [(1 - (1 + r)<sup>-n</sup>) / r]</code> where r and n use the stress test rate and 30-year term.
       </span>
     </div>
   </body>
