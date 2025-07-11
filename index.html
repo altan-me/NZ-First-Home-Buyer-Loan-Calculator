@@ -904,17 +904,70 @@
         contentDiv.innerHTML = detailsHtml;
       }
 
+      // --- LocalStorage Auto-Save & Load ---
+function saveInputsToLocalStorage() {
+  const inputs = {};
+  document.querySelectorAll('.inputs-grid input, .inputs-grid select').forEach(element => {
+    if (element.type === 'checkbox') {
+      inputs[element.id] = element.checked ? '1' : '0';
+    } else {
+      inputs[element.id] = element.value;
+    }
+  });
+  // Weekly/monthly toggle
+  inputs['toggle-weekly'] = document.getElementById('toggle-weekly').checked ? '1' : '0';
+  localStorage.setItem('loanCalculatorInputs', JSON.stringify(inputs));
+}
+
+function loadInputsFromLocalStorage() {
+  const saved = localStorage.getItem('loanCalculatorInputs');
+  if (saved) {
+    const inputs = JSON.parse(saved);
+    for (const id in inputs) {
+      const element = document.getElementById(id);
+      if (element) {
+        if (element.type === 'checkbox') {
+          element.checked = inputs[id] === '1';
+        } else {
+          element.value = inputs[id];
+        }
+      }
+    }
+  }
+}
+
+function addInputPersistenceListeners() {
+  document.querySelectorAll('.inputs-grid input, .inputs-grid select').forEach(element => {
+    element.addEventListener('input', () => {
+      saveInputsToLocalStorage();
+      calculateLoan();
+    });
+  });
+  document.getElementById('toggle-weekly').addEventListener('change', () => {
+    saveInputsToLocalStorage();
+    calculateLoan();
+  });
+}
+
+function loadInputsFromUrlOrLocalStorage() {
+  const inputs = decodeInputsFromUrl();
+  if (Object.keys(inputs).length > 0) {
+    setInputs(inputs);
+    if ('toggle-weekly' in inputs) {
+      document.getElementById('toggle-weekly').checked = inputs['toggle-weekly'] === '1';
+    }
+  } else {
+    loadInputsFromLocalStorage();
+  }
+}
+
       // Calculate on page load
       window.onload = function () {
         // Initial display of placeholder results
         displayPlaceholderResults();
-        // Add event listeners for real-time calculation
-        document.querySelectorAll("input, select").forEach((element) => {
-          element.addEventListener("input", calculateLoan);
-        });
-
-        // Load inputs from URL on page load
-        loadInputsFromUrl();
+        addInputPersistenceListeners();
+        loadInputsFromUrlOrLocalStorage();
+        calculateLoan();
       };
 
       function displayPlaceholderResults() {
@@ -972,14 +1025,6 @@
         contentDiv.innerHTML = detailsHtml;
       }
 
-      // Add event listeners for real-time calculation
-      document.querySelectorAll("input, select").forEach((element) => {
-        element.addEventListener("input", calculateLoan);
-      });
-
-    </script>
-
-    <script>
       // Function to get all input values
       function getInputs() {
         const inputs = {};
@@ -1023,8 +1068,13 @@
         const inputs = decodeInputsFromUrl();
         if (Object.keys(inputs).length > 0) {
           setInputs(inputs);
+          // Set weekly/monthly toggle if present in URL
+          if ('toggle-weekly' in inputs) {
+            document.getElementById('toggle-weekly').checked = inputs['toggle-weekly'] === '1';
+          }
           calculateLoan(); // Recalculate with loaded inputs
         } else {
+          loadInputsFromLocalStorage();
           calculateLoan(); // Initial calculation if no URL parameters
         }
       }
@@ -1047,9 +1097,7 @@
           alert("Failed to copy link. Please try again or copy manually: " + shareableLink);
         });
       });
-    </script>
 
-    <script>
       // Theme toggle functionality
       const themeToggle = document.getElementById("theme-toggle");
       const themeIcon = document.getElementById("theme-icon");
