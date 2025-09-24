@@ -973,6 +973,55 @@
                     </span>
                 </div>
                 
+                <div class="section-title">Loan Breakdown (${
+                  results.loanTerm
+                } Years)</div>
+                
+                <div class="result-item">
+                    <span class="result-label">
+                        Total Interest Paid
+                        <div class="tooltip">
+                            <span class="tooltip-icon">?</span>
+                            <span class="tooltip-text">Total interest you'll pay over the ${
+                              results.loanTerm
+                            }-year loan term</span>
+                        </div>
+                    </span>
+                    <span class="result-value">${Math.round(
+                      results.monthlyPayment * results.loanTerm * 12 -
+                        results.requiredLoan
+                    ).toLocaleString()}</span>
+                </div>
+                
+                <div class="result-item">
+                    <span class="result-label">
+                        Total Amount Paid
+                        <div class="tooltip">
+                            <span class="tooltip-icon">?</span>
+                            <span class="tooltip-text">Total amount you'll pay over the life of the loan (principal + interest)</span>
+                        </div>
+                    </span>
+                    <span class="result-value">${Math.round(
+                      results.monthlyPayment * results.loanTerm * 12
+                    ).toLocaleString()}</span>
+                </div>
+                
+                <div class="result-item">
+                    <span class="result-label">
+                        Interest as % of Total
+                        <div class="tooltip">
+                            <span class="tooltip-icon">?</span>
+                            <span class="tooltip-text">What percentage of your total payments goes to interest</span>
+                        </div>
+                    </span>
+                    <span class="result-value">${(
+                      ((results.monthlyPayment * results.loanTerm * 12 -
+                        results.requiredLoan) /
+                        (results.monthlyPayment * results.loanTerm * 12)) *
+                      100
+                    ).toFixed(1)}%</span>
+                </div>
+                
                 <div class="section-title">Lending Limits</div>
                 
                 <div class="result-item">
@@ -1103,6 +1152,27 @@
           Math.round(loanAmount - item.balance)
         );
 
+        // Calculate cumulative interest paid
+        const interestData = [];
+        let cumulativeInterest = 0;
+        for (let i = 0; i < yearlyData.length; i++) {
+          if (i === 0) {
+            interestData.push(0);
+          } else {
+            // Sum interest from previous year to current year
+            const yearStart = (i - 1) * 12;
+            const yearEnd = i * 12;
+            for (
+              let j = yearStart + 1;
+              j <= Math.min(yearEnd, schedule.length - 1);
+              j++
+            ) {
+              cumulativeInterest += schedule[j].interest;
+            }
+            interestData.push(Math.round(cumulativeInterest));
+          }
+        }
+
         // Check if dark mode is active
         const isDarkMode = document.body.classList.contains("dark-mode");
         const textColor = isDarkMode ? "#e0e0e0" : "#666";
@@ -1129,6 +1199,14 @@
                 fill: true,
                 tension: 0.4,
               },
+              {
+                label: "Interest Paid",
+                data: interestData,
+                borderColor: "#f39c12",
+                backgroundColor: "rgba(243, 156, 18, 0.1)",
+                fill: true,
+                tension: 0.4,
+              },
             ],
           },
           options: {
@@ -1148,6 +1226,25 @@
                       ": $" +
                       context.parsed.y.toLocaleString()
                     );
+                  },
+                  afterBody: function (tooltipItems) {
+                    if (tooltipItems.length > 0) {
+                      const dataIndex = tooltipItems[0].dataIndex;
+                      const year = yearlyData[dataIndex].year;
+                      if (year > 0) {
+                        const totalPaid =
+                          principalData[dataIndex] + interestData[dataIndex];
+                        const interestPercentage = (
+                          (interestData[dataIndex] / totalPaid) *
+                          100
+                        ).toFixed(1);
+                        return [
+                          `Total Paid: $${totalPaid.toLocaleString()}`,
+                          `Interest: ${interestPercentage}% of total payments`,
+                        ];
+                      }
+                    }
+                    return [];
                   },
                 },
               },
