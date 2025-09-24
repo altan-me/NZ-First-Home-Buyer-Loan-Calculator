@@ -405,7 +405,38 @@
         background: #2980b9;
       }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
+      /* Graph container styles */
+      .graph-container {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 6px;
+        margin-top: 20px;
+        border: 1px solid #e9ecef;
+      }
+
+      .graph-container h3 {
+        margin: 0 0 15px 0;
+        font-size: 16px;
+        color: #2c3e50;
+        text-align: center;
+      }
+
+      #loanChart {
+        max-height: 400px;
+        width: 100%;
+      }
+
+      body.dark-mode .graph-container {
+        background: #2c2c2c;
+        border-color: #555;
+      }
+
+      body.dark-mode .graph-container h3 {
+        color: #ffffff;
+      }
+
       /* Dark Mode Styles */
       body.dark-mode {
         background-color: #1a1a1a;
@@ -676,6 +707,11 @@
         </div>
         <div class="results-grid" id="resultContent"></div>
       </div>
+
+      <div class="graph-container" id="graphContainer" style="display: none;">
+        <h3>Loan Balance Over Time</h3>
+        <canvas id="loanChart"></canvas>
+      </div>
     </div>
 
     <script>
@@ -902,6 +938,140 @@
 
         keyMetricsDiv.innerHTML = keyMetricsHtml;
         contentDiv.innerHTML = detailsHtml;
+
+        // Show graph if loan is feasible
+        if (results.canAfford && results.requiredLoan > 0) {
+          document.getElementById('graphContainer').style.display = 'block';
+          createLoanChart(results.requiredLoan, parseFloat(document.getElementById("interestRate").value));
+        } else {
+          document.getElementById('graphContainer').style.display = 'none';
+        }
+      }
+
+      let loanChart = null;
+
+      function generateAmortizationSchedule(loanAmount, annualRate, years = 30) {
+        const monthlyRate = annualRate / 100 / 12;
+        const totalPayments = years * 12;
+        const monthlyPayment = calculateMonthlyPayment(loanAmount, annualRate);
+        
+        const schedule = [];
+        let remainingBalance = loanAmount;
+        
+        for (let month = 0; month <= totalPayments; month++) {
+          if (month === 0) {
+            schedule.push({
+              month: 0,
+              year: 0,
+              balance: loanAmount,
+              payment: 0,
+              principal: 0,
+              interest: 0
+            });
+          } else {
+            const interestPayment = remainingBalance * monthlyRate;
+            const principalPayment = monthlyPayment - interestPayment;
+            remainingBalance = Math.max(0, remainingBalance - principalPayment);
+            
+            schedule.push({
+              month: month,
+              year: Math.floor(month / 12),
+              balance: remainingBalance,
+              payment: monthlyPayment,
+              principal: principalPayment,
+              interest: interestPayment
+            });
+          }
+        }
+        
+        return schedule;
+      }
+
+      function createLoanChart(loanAmount, interestRate) {
+        const ctx = document.getElementById('loanChart').getContext('2d');
+        
+        // Destroy existing chart if it exists
+        if (loanChart) {
+          loanChart.destroy();
+        }
+        
+        const schedule = generateAmortizationSchedule(loanAmount, interestRate);
+        
+        // Sample data points (every 12 months for cleaner display)
+        const yearlyData = schedule.filter((_, index) => index % 12 === 0);
+        
+        const labels = yearlyData.map(item => `Year ${item.year}`);
+        const balanceData = yearlyData.map(item => Math.round(item.balance));
+        const principalData = yearlyData.map(item => Math.round(loanAmount - item.balance));
+        
+        // Check if dark mode is active
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        const textColor = isDarkMode ? '#e0e0e0' : '#666';
+        const gridColor = isDarkMode ? '#555' : '#e0e0e0';
+        
+        loanChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: 'Remaining Balance',
+                data: balanceData,
+                borderColor: '#e74c3c',
+                backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                fill: true,
+                tension: 0.4
+              },
+              {
+                label: 'Principal Paid',
+                data: principalData,
+                borderColor: '#27ae60',
+                backgroundColor: 'rgba(39, 174, 96, 0.1)',
+                fill: true,
+                tension: 0.4
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                labels: {
+                  color: textColor
+                }
+              },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    return context.dataset.label + ': $' + context.parsed.y.toLocaleString();
+                  }
+                }
+              }
+            },
+            scales: {
+              x: {
+                ticks: {
+                  color: textColor
+                },
+                grid: {
+                  color: gridColor
+                }
+              },
+              y: {
+                ticks: {
+                  color: textColor,
+                  callback: function(value) {
+                    return '$' + value.toLocaleString();
+                  }
+                },
+                grid: {
+                  color: gridColor
+                }
+              }
+            }
+          }
+        });
       }
 
       // --- LocalStorage Auto-Save & Load ---

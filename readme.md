@@ -12,11 +12,16 @@ This tool provides real-time calculations based on the three main criteria New Z
 ## ✨ Features
 
 - **Real-time calculations** - Results update as you adjust inputs
+- **Interactive loan graph** - Visual amortization schedule showing balance reduction over time
 - **Comprehensive tooltips** - Hover over "?" icons for detailed explanations
 - **Stress testing** - Tests affordability at rates 2.5% above current
+- **Dark mode support** - Toggle between light and dark themes
+- **Weekly/monthly toggle** - View payments in weekly or monthly format
+- **Shareable links** - Generate URLs with your calculation parameters
+- **Auto-save inputs** - Your inputs are saved locally and restored on reload
 - **Visual indicators** - Clear pass/fail status with color coding
 - **Mobile responsive** - Works on all devices
-- **No dependencies** - Pure HTML/CSS/JavaScript
+- **Chart.js integration** - Interactive graphs with hover tooltips
 
 ## 🚀 Quick Start
 
@@ -51,6 +56,21 @@ This tool provides real-time calculations based on the three main criteria New Z
 - **Living Expenses** - Monthly living costs
 - **Interest Rate** - Current mortgage rates
 - **DTI Limit** - Regulatory debt-to-income multiple
+
+### Visual Features
+
+#### Loan Amortization Graph
+The calculator includes an interactive chart that shows:
+- **Red line**: Remaining loan balance over 30 years (decreases over time)
+- **Green line**: Principal amount paid (increases over time)
+- **Hover tooltips**: Exact dollar amounts at any point in time
+- **Yearly data points**: Clear visualization of progress each year
+
+#### User Interface
+- **Dark/Light mode**: Toggle in the top-right corner
+- **Weekly/Monthly payments**: Switch between payment frequencies
+- **Auto-save**: All inputs automatically saved to browser storage
+- **Shareable links**: Copy button generates URLs with your parameters
 
 ### Calculations
 
@@ -120,6 +140,11 @@ The CSS uses CSS custom properties for easy theming:
 - ✅ Edge 79+
 - ✅ Mobile browsers
 
+## 🛠️ Dependencies
+
+- **Chart.js** - For interactive loan amortization graphs (loaded via CDN)
+- No other external dependencies required
+
 ## 🤝 Contributing
 
 1. Fork the repository
@@ -134,6 +159,8 @@ The CSS uses CSS custom properties for easy theming:
 - Add tooltips for new features
 - Test calculations thoroughly
 - Follow existing code style
+- Ensure dark mode compatibility for new features
+- Test chart responsiveness on mobile devices
 
 ## 📝 License
 
@@ -166,4 +193,17 @@ This calculator is designed specifically for the New Zealand property market and
 
 ## 🎉 Acknowledgments
 
-- Reserve
+- **Chart.js** - For providing excellent charting capabilities
+- **Reserve Bank of New Zealand (RBNZ)** - For LVR and DTI guidance
+- **New Zealand banking sector** - For serviceability testing standards
+
+## 🔄 Recent Updates
+
+### Version 2.0 Features
+- ✨ **Interactive loan amortization graph** - Visual representation of loan balance over time
+- 🌙 **Dark mode support** - Toggle between light and dark themes
+- 📊 **Chart.js integration** - Professional interactive charts with tooltips
+- 💾 **Auto-save functionality** - Inputs automatically saved and restored
+- 🔗 **Shareable links** - Generate URLs with calculation parameters
+- 📱 **Enhanced mobile experience** - Improved responsive design
+- ⚡ **Weekly payment toggle** - Switch between weekly and monthly payment views
