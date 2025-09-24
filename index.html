@@ -688,6 +688,26 @@
             <option value="7">7x Income</option>
           </select>
         </div>
+
+        <div class="input-group">
+          <label for="loanTerm">
+            Loan Term (Years)
+            <div class="tooltip">
+              <span class="tooltip-icon">?</span>
+              <span class="tooltip-text"
+                >Length of the mortgage in years. Longer terms mean lower
+                monthly payments but more interest paid overall.</span
+              >
+            </div>
+          </label>
+          <select id="loanTerm">
+            <option value="15">15 Years</option>
+            <option value="20">20 Years</option>
+            <option value="25">25 Years</option>
+            <option value="30" selected>30 Years</option>
+            <option value="35">35 Years</option>
+          </select>
+        </div>
       </div>
 
       <div class="button-group">
@@ -757,6 +777,8 @@
           parseFloat(document.getElementById("interestRate").value) || 6.5;
         const dtiLimit =
           parseFloat(document.getElementById("dtiLimit").value) || 6.5;
+        const loanTerm =
+          parseFloat(document.getElementById("loanTerm").value) || 30;
 
         // Calculate maximum loan amounts based on different criteria
         const monthlyIncome = income / 12;
@@ -775,7 +797,7 @@
 
         // Calculate max loan based on monthly payment capacity
         const monthlyStressRate = stressTestRate / 100 / 12;
-        const loanTermMonths = 30 * 12; // 30 years
+        const loanTermMonths = loanTerm * 12; // Convert years to months
         const maxLoanServiceability = Math.max(
           0,
           maxMonthlyPayment *
@@ -805,31 +827,37 @@
           canAfford,
           lvr,
           dti,
-          monthlyPayment: calculateMonthlyPayment(requiredLoan, interestRate),
+          monthlyPayment: calculateMonthlyPayment(
+            requiredLoan,
+            interestRate,
+            loanTerm
+          ),
           stressTestPayment: calculateMonthlyPayment(
             requiredLoan,
-            stressTestRate
+            stressTestRate,
+            loanTerm
           ),
           monthlyPaymentCapacity,
           deposit,
           propertyValue,
+          loanTerm,
         });
       }
 
-      function calculateMonthlyPayment(loanAmount, rate) {
+      function calculateMonthlyPayment(loanAmount, rate, years = 30) {
         if (loanAmount <= 0 || rate <= 0) return 0;
         const monthlyRate = rate / 100 / 12;
-        const months = 30 * 12;
+        const months = years * 12;
         return (
           (loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, months))) /
           (Math.pow(1 + monthlyRate, months) - 1)
         );
       }
 
-      function calculateWeeklyPayment(loanAmount, rate) {
+      function calculateWeeklyPayment(loanAmount, rate, years = 30) {
         if (loanAmount <= 0 || rate <= 0) return 0;
         const weeklyRate = rate / 100 / 52;
-        const weeks = 30 * 52;
+        const weeks = years * 52;
         return (
           (loanAmount * (weeklyRate * Math.pow(1 + weeklyRate, weeks))) /
           (Math.pow(1 + weeklyRate, weeks) - 1)
@@ -848,11 +876,13 @@
         const stressTestPayment = results.stressTestPayment;
         const weeklyPayment = calculateWeeklyPayment(
           results.requiredLoan,
-          parseFloat(document.getElementById("interestRate").value)
+          parseFloat(document.getElementById("interestRate").value),
+          results.loanTerm
         );
         const weeklyStressPayment = calculateWeeklyPayment(
           results.requiredLoan,
-          parseFloat(document.getElementById("interestRate").value) + 2.5
+          parseFloat(document.getElementById("interestRate").value) + 2.5,
+          results.loanTerm
         );
 
         // Key metrics cards
@@ -905,8 +935,8 @@
                             <span class="tooltip-icon">?</span>
                             <span class="tooltip-text">${
                               showWeekly
-                                ? "Weekly mortgage payment at current rate (30-year term)"
-                                : "Monthly mortgage payment at current rate (30-year term)"
+                                ? `Weekly mortgage payment at current rate (${results.loanTerm}-year term)`
+                                : `Monthly mortgage payment at current rate (${results.loanTerm}-year term)`
                             }</span>
                         </div>
                     </span>
@@ -989,9 +1019,14 @@
         // Show graph if loan is feasible
         if (results.canAfford && results.requiredLoan > 0) {
           document.getElementById("graphContainer").style.display = "block";
+          // Update chart title with loan term
+          document.querySelector(
+            ".graph-container h3"
+          ).textContent = `Loan Balance Over ${results.loanTerm} Years`;
           createLoanChart(
             results.requiredLoan,
-            parseFloat(document.getElementById("interestRate").value)
+            parseFloat(document.getElementById("interestRate").value),
+            results.loanTerm
           );
         } else {
           document.getElementById("graphContainer").style.display = "none";
@@ -1007,7 +1042,11 @@
       ) {
         const monthlyRate = annualRate / 100 / 12;
         const totalPayments = years * 12;
-        const monthlyPayment = calculateMonthlyPayment(loanAmount, annualRate);
+        const monthlyPayment = calculateMonthlyPayment(
+          loanAmount,
+          annualRate,
+          years
+        );
 
         const schedule = [];
         let remainingBalance = loanAmount;
@@ -1041,7 +1080,7 @@
         return schedule;
       }
 
-      function createLoanChart(loanAmount, interestRate) {
+      function createLoanChart(loanAmount, interestRate, years = 30) {
         const ctx = document.getElementById("loanChart").getContext("2d");
 
         // Destroy existing chart if it exists
@@ -1049,7 +1088,11 @@
           loanChart.destroy();
         }
 
-        const schedule = generateAmortizationSchedule(loanAmount, interestRate);
+        const schedule = generateAmortizationSchedule(
+          loanAmount,
+          interestRate,
+          years
+        );
 
         // Sample data points (every 12 months for cleaner display)
         const yearlyData = schedule.filter((_, index) => index % 12 === 0);
