@@ -72,9 +72,9 @@
         border-color: #3498db;
         outline: none;
         box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.1);
-       }
+      }
 
-       #theme-toggle {
+      #theme-toggle {
         position: absolute;
         top: 10px; /* Adjusted top position */
         right: 10px; /* Adjusted right position */
@@ -92,29 +92,29 @@
         align-items: center;
         justify-content: center;
         z-index: 10; /* Ensure it's above other content */
-       }
+      }
 
-       #theme-toggle:hover {
+      #theme-toggle:hover {
         color: #2c3e50;
         background-color: rgba(0, 0, 0, 0.05);
-       }
+      }
 
-       body.dark-mode #theme-toggle {
+      body.dark-mode #theme-toggle {
         color: #e0e0e0; /* Dark mode color */
-       }
+      }
 
-       body.dark-mode #theme-toggle:hover {
+      body.dark-mode #theme-toggle:hover {
         color: #ffffff;
         background-color: rgba(255, 255, 255, 0.1);
-       }
+      }
 
-       #theme-icon {
+      #theme-icon {
         display: block;
         line-height: 1;
-       }
+      }
 
-       /* Share Button Styles */
-       #share-link-button {
+      /* Share Button Styles */
+      #share-link-button {
         background: #2ecc71; /* A distinct green color */
         color: white;
         padding: 8px 16px;
@@ -126,25 +126,25 @@
         /* margin-left: 10px; Add some space between buttons */
         font-weight: 500;
         transition: background 0.2s;
-       }
+      }
 
-       #share-link-button:hover {
+      #share-link-button:hover {
         background: #27ae60; /* Darker green on hover */
-       }
+      }
 
-       body.dark-mode #share-link-button {
+      body.dark-mode #share-link-button {
         background: #27ae60; /* Dark mode green */
         color: white;
-       }
+      }
 
-       body.dark-mode #share-link-button:hover {
+      body.dark-mode #share-link-button:hover {
         background: #229954; /* Darker green on hover in dark mode */
-       }
+      }
 
-       .btn {
-         background: #3498db;
-         color: white;
-         padding: 10px 24px;
+      .btn {
+        background: #3498db;
+        color: white;
+        padding: 10px 24px;
         border: none;
         border-radius: 4px;
         font-size: 15px;
@@ -153,31 +153,31 @@
         margin: 20px 0;
         font-weight: 500;
         transition: background 0.2s;
-       }
+      }
 
-       /* Adjustments for buttons side-by-side */
-       .button-group {
-         display: flex;
-         justify-content: center;
-         margin-top: 20px;
-         margin-bottom: 20px;
-       }
+      /* Adjustments for buttons side-by-side */
+      .button-group {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        margin-bottom: 20px;
+      }
 
-       .button-group .btn {
-         margin: 0 5px; /* Adjust margin for spacing between buttons */
-         width: auto; /* Allow buttons to size based on content */
-         flex-grow: 1; /* Allow buttons to grow and fill space */
-       }
+      .button-group .btn {
+        margin: 0 5px; /* Adjust margin for spacing between buttons */
+        width: auto; /* Allow buttons to size based on content */
+        flex-grow: 1; /* Allow buttons to grow and fill space */
+      }
 
-       @media (max-width: 480px) {
-         .button-group {
-           flex-direction: column;
-         }
-         .button-group .btn {
-           width: 100%;
-           margin: 5px 0;
-         }
-       }
+      @media (max-width: 480px) {
+        .button-group {
+          flex-direction: column;
+        }
+        .button-group .btn {
+          width: 100%;
+          margin: 5px 0;
+        }
+      }
 
       .btn:hover {
         background: #2980b9;
@@ -383,7 +383,7 @@
         background: #3498db;
       }
       .switch-label .switch-slider:before {
-        content: '';
+        content: "";
         position: absolute;
         left: 3px;
         top: 3px;
@@ -392,7 +392,7 @@
         background: #fff;
         border-radius: 50%;
         transition: transform 0.2s;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
       }
       .switch-label input:checked + .switch-slider:before {
         transform: translateX(16px);
@@ -562,11 +562,12 @@
             <div class="tooltip">
               <span class="tooltip-icon">?</span>
               <span class="tooltip-text"
-                >Total income before tax (salary, wages, bonuses). Banks require 3-6 months payslips.</span
-                >
+                >Total income before tax (salary, wages, bonuses). Banks require
+                3-6 months payslips.</span
+              >
             </div>
           </label>
-          <input type="number" id="income" value="80000" min="0" step="1000" />
+          <input type="number" id="income" value="100000" min="0" step="1000" />
         </div>
 
         <div class="input-group">
@@ -575,14 +576,15 @@
             <div class="tooltip">
               <span class="tooltip-icon">?</span>
               <span class="tooltip-text"
-                >Cash saved for purchase. Minimum 10% deposit needed, 20% for better rates/no low equity fees.</span
-                >
+                >Cash saved for purchase. Minimum 10% deposit needed, 20% for
+                better rates/no low equity fees.</span
+              >
             </div>
           </label>
           <input
             type="number"
             id="deposit"
-            value="100000"
+            value="200000"
             min="0"
             step="1000"
           />
@@ -594,8 +596,9 @@
             <div class="tooltip">
               <span class="tooltip-icon">?</span>
               <span class="tooltip-text"
-                >Purchase price or estimated value. Used for Loan-to-Value Ratio (LVR) calculation.</span
-                >
+                >Purchase price or estimated value. Used for Loan-to-Value Ratio
+                (LVR) calculation.</span
+              >
             </div>
           </label>
           <input
@@ -613,14 +616,15 @@
             <div class="tooltip">
               <span class="tooltip-icon">?</span>
               <span class="tooltip-text"
-                >Total monthly payments for credit cards, loans, etc. Banks assess these for mortgage serviceability.</span
-                >
+                >Total monthly payments for credit cards, loans, etc. Banks
+                assess these for mortgage serviceability.</span
+              >
             </div>
           </label>
           <input
             type="number"
             id="existingDebts"
-            value="500"
+            value="1500"
             min="0"
             step="50"
           />
@@ -632,8 +636,9 @@
             <div class="tooltip">
               <span class="tooltip-icon">?</span>
               <span class="tooltip-text"
-                >Monthly costs (groceries, utilities, transport, etc.). Banks use declared or benchmark figures.</span
-                >
+                >Monthly costs (groceries, utilities, transport, etc.). Banks
+                use declared or benchmark figures.</span
+              >
             </div>
           </label>
           <input
@@ -651,8 +656,9 @@
             <div class="tooltip">
               <span class="tooltip-icon">?</span>
               <span class="tooltip-text"
-                >Current mortgage rate. Varies by bank/loan type. Calculator stress tests at +2.5%.</span
-                >
+                >Current mortgage rate. Varies by bank/loan type. Calculator
+                stress tests at +2.5%.</span
+              >
             </div>
           </label>
           <input
@@ -671,8 +677,9 @@
             <div class="tooltip">
               <span class="tooltip-icon">?</span>
               <span class="tooltip-text"
-                >Debt-to-Income ratio limit (e.g., 6-7x income). Limits borrowing based on income.</span
-                >
+                >Debt-to-Income ratio limit (e.g., 6-7x income). Limits
+                borrowing based on income.</span
+              >
             </div>
           </label>
           <select id="dtiLimit">
@@ -687,7 +694,11 @@
         <button class="btn" onclick="calculateLoan()">
           Calculate Maximum Loan
         </button>
-        <button class="btn" id="share-link-button" aria-label="Copy shareable link">
+        <button
+          class="btn"
+          id="share-link-button"
+          aria-label="Copy shareable link"
+        >
           Copy Shareable Link
         </button>
       </div>
@@ -697,18 +708,34 @@
 
         <div class="key-metrics" id="keyMetrics"></div>
 
-        <div class="section-title" style="display:flex; align-items:center; justify-content:space-between;">
+        <div
+          class="section-title"
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+          "
+        >
           <span>Assessment Details</span>
-          <label class="switch-label" style="display:flex; align-items:center; gap:6px; font-size:13px; cursor:pointer;">
-            <span style="font-size:13px;">Weekly</span>
-            <input type="checkbox" id="toggle-weekly" style="display:none;">
+          <label
+            class="switch-label"
+            style="
+              display: flex;
+              align-items: center;
+              gap: 6px;
+              font-size: 13px;
+              cursor: pointer;
+            "
+          >
+            <span style="font-size: 13px">Weekly</span>
+            <input type="checkbox" id="toggle-weekly" style="display: none" />
             <span class="switch-slider"></span>
           </label>
         </div>
         <div class="results-grid" id="resultContent"></div>
       </div>
 
-      <div class="graph-container" id="graphContainer" style="display: none;">
+      <div class="graph-container" id="graphContainer" style="display: none">
         <h3>Loan Balance Over Time</h3>
         <canvas id="loanChart"></canvas>
       </div>
@@ -804,7 +831,7 @@
         const weeklyRate = rate / 100 / 52;
         const weeks = 30 * 52;
         return (
-          loanAmount * (weeklyRate * Math.pow(1 + weeklyRate, weeks)) /
+          (loanAmount * (weeklyRate * Math.pow(1 + weeklyRate, weeks))) /
           (Math.pow(1 + weeklyRate, weeks) - 1)
         );
       }
@@ -819,8 +846,14 @@
         }
         const monthlyPayment = results.monthlyPayment;
         const stressTestPayment = results.stressTestPayment;
-        const weeklyPayment = calculateWeeklyPayment(results.requiredLoan, parseFloat(document.getElementById("interestRate").value));
-        const weeklyStressPayment = calculateWeeklyPayment(results.requiredLoan, parseFloat(document.getElementById("interestRate").value) + 2.5);
+        const weeklyPayment = calculateWeeklyPayment(
+          results.requiredLoan,
+          parseFloat(document.getElementById("interestRate").value)
+        );
+        const weeklyStressPayment = calculateWeeklyPayment(
+          results.requiredLoan,
+          parseFloat(document.getElementById("interestRate").value) + 2.5
+        );
 
         // Key metrics cards
         const keyMetricsHtml = `
@@ -833,7 +866,9 @@
                     <div class="metric-label">Status</div>
                 </div>
                 <div class="metric-card">
-                    <div class="metric-value">$${Math.round(results.maxLoan).toLocaleString()}</div>
+                    <div class="metric-value">$${Math.round(
+                      results.maxLoan
+                    ).toLocaleString()}</div>
                     <div class="metric-label">Max Loan</div>
                 </div>
                 <div class="metric-card">
@@ -868,15 +903,25 @@
                         ${showWeekly ? "Weekly Payment" : "Monthly Payment"}
                         <div class="tooltip">
                             <span class="tooltip-icon">?</span>
-                            <span class="tooltip-text">${showWeekly ? "Weekly mortgage payment at current rate (30-year term)" : "Monthly mortgage payment at current rate (30-year term)"}</span>
+                            <span class="tooltip-text">${
+                              showWeekly
+                                ? "Weekly mortgage payment at current rate (30-year term)"
+                                : "Monthly mortgage payment at current rate (30-year term)"
+                            }</span>
                         </div>
                     </span>
-                    <span class="result-value">${formatPayment(showWeekly ? weeklyPayment : monthlyPayment)}</span>
+                    <span class="result-value">${formatPayment(
+                      showWeekly ? weeklyPayment : monthlyPayment
+                    )}</span>
                 </div>
                 
                 <div class="result-item">
                     <span class="result-label">
-                        ${showWeekly ? "Weekly Stress Test Payment" : "Stress Test Payment"}
+                        ${
+                          showWeekly
+                            ? "Weekly Stress Test Payment"
+                            : "Stress Test Payment"
+                        }
                         <div class="tooltip">
                             <span class="tooltip-icon">?</span>
                             <span class="tooltip-text">Payment at +2.5% rate (${(
@@ -892,7 +937,9 @@
                         ? "success"
                         : "warning"
                     }">
-                        ${formatPayment(showWeekly ? weeklyStressPayment : stressTestPayment)}
+                        ${formatPayment(
+                          showWeekly ? weeklyStressPayment : stressTestPayment
+                        )}
                     </span>
                 </div>
                 
@@ -941,23 +988,30 @@
 
         // Show graph if loan is feasible
         if (results.canAfford && results.requiredLoan > 0) {
-          document.getElementById('graphContainer').style.display = 'block';
-          createLoanChart(results.requiredLoan, parseFloat(document.getElementById("interestRate").value));
+          document.getElementById("graphContainer").style.display = "block";
+          createLoanChart(
+            results.requiredLoan,
+            parseFloat(document.getElementById("interestRate").value)
+          );
         } else {
-          document.getElementById('graphContainer').style.display = 'none';
+          document.getElementById("graphContainer").style.display = "none";
         }
       }
 
       let loanChart = null;
 
-      function generateAmortizationSchedule(loanAmount, annualRate, years = 30) {
+      function generateAmortizationSchedule(
+        loanAmount,
+        annualRate,
+        years = 30
+      ) {
         const monthlyRate = annualRate / 100 / 12;
         const totalPayments = years * 12;
         const monthlyPayment = calculateMonthlyPayment(loanAmount, annualRate);
-        
+
         const schedule = [];
         let remainingBalance = loanAmount;
-        
+
         for (let month = 0; month <= totalPayments; month++) {
           if (month === 0) {
             schedule.push({
@@ -966,71 +1020,73 @@
               balance: loanAmount,
               payment: 0,
               principal: 0,
-              interest: 0
+              interest: 0,
             });
           } else {
             const interestPayment = remainingBalance * monthlyRate;
             const principalPayment = monthlyPayment - interestPayment;
             remainingBalance = Math.max(0, remainingBalance - principalPayment);
-            
+
             schedule.push({
               month: month,
               year: Math.floor(month / 12),
               balance: remainingBalance,
               payment: monthlyPayment,
               principal: principalPayment,
-              interest: interestPayment
+              interest: interestPayment,
             });
           }
         }
-        
+
         return schedule;
       }
 
       function createLoanChart(loanAmount, interestRate) {
-        const ctx = document.getElementById('loanChart').getContext('2d');
-        
+        const ctx = document.getElementById("loanChart").getContext("2d");
+
         // Destroy existing chart if it exists
         if (loanChart) {
           loanChart.destroy();
         }
-        
+
         const schedule = generateAmortizationSchedule(loanAmount, interestRate);
-        
+
         // Sample data points (every 12 months for cleaner display)
         const yearlyData = schedule.filter((_, index) => index % 12 === 0);
-        
-        const labels = yearlyData.map(item => `Year ${item.year}`);
-        const balanceData = yearlyData.map(item => Math.round(item.balance));
-        const principalData = yearlyData.map(item => Math.round(loanAmount - item.balance));
-        
+
+        const labels = yearlyData.map((item) => `Year ${item.year}`);
+        const balanceData = yearlyData.map((item) => Math.round(item.balance));
+        const principalData = yearlyData.map((item) =>
+          Math.round(loanAmount - item.balance)
+        );
+
         // Check if dark mode is active
-        const isDarkMode = document.body.classList.contains('dark-mode');
-        const textColor = isDarkMode ? '#e0e0e0' : '#666';
-        const gridColor = isDarkMode ? '#555' : '#e0e0e0';
-        
+        const isDarkMode = document.body.classList.contains("dark-mode");
+        const textColor = isDarkMode ? "#e0e0e0" : "#666";
+        const gridColor = isDarkMode ? "#555" : "#e0e0e0";
+
         loanChart = new Chart(ctx, {
-          type: 'line',
+          type: "line",
           data: {
             labels: labels,
             datasets: [
               {
-                label: 'Remaining Balance',
+                label: "Remaining Balance",
                 data: balanceData,
-                borderColor: '#e74c3c',
-                backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                borderColor: "#e74c3c",
+                backgroundColor: "rgba(231, 76, 60, 0.1)",
                 fill: true,
-                tension: 0.4
+                tension: 0.4,
               },
               {
-                label: 'Principal Paid',
+                label: "Principal Paid",
                 data: principalData,
-                borderColor: '#27ae60',
-                backgroundColor: 'rgba(39, 174, 96, 0.1)',
+                borderColor: "#27ae60",
+                backgroundColor: "rgba(39, 174, 96, 0.1)",
                 fill: true,
-                tension: 0.4
-              }
-            ]
+                tension: 0.4,
+              },
+            ],
           },
           options: {
             responsive: true,
@@ -1038,98 +1094,112 @@
             plugins: {
               legend: {
                 labels: {
-                  color: textColor
-                }
+                  color: textColor,
+                },
               },
               tooltip: {
                 callbacks: {
-                  label: function(context) {
-                    return context.dataset.label + ': $' + context.parsed.y.toLocaleString();
-                  }
-                }
-              }
+                  label: function (context) {
+                    return (
+                      context.dataset.label +
+                      ": $" +
+                      context.parsed.y.toLocaleString()
+                    );
+                  },
+                },
+              },
             },
             scales: {
               x: {
                 ticks: {
-                  color: textColor
+                  color: textColor,
                 },
                 grid: {
-                  color: gridColor
-                }
+                  color: gridColor,
+                },
               },
               y: {
                 ticks: {
                   color: textColor,
-                  callback: function(value) {
-                    return '$' + value.toLocaleString();
-                  }
+                  callback: function (value) {
+                    return "$" + value.toLocaleString();
+                  },
                 },
                 grid: {
-                  color: gridColor
-                }
-              }
-            }
-          }
+                  color: gridColor,
+                },
+              },
+            },
+          },
         });
       }
 
       // --- LocalStorage Auto-Save & Load ---
-function saveInputsToLocalStorage() {
-  const inputs = {};
-  document.querySelectorAll('.inputs-grid input, .inputs-grid select').forEach(element => {
-    if (element.type === 'checkbox') {
-      inputs[element.id] = element.checked ? '1' : '0';
-    } else {
-      inputs[element.id] = element.value;
-    }
-  });
-  // Weekly/monthly toggle
-  inputs['toggle-weekly'] = document.getElementById('toggle-weekly').checked ? '1' : '0';
-  localStorage.setItem('loanCalculatorInputs', JSON.stringify(inputs));
-}
+      function saveInputsToLocalStorage() {
+        const inputs = {};
+        document
+          .querySelectorAll(".inputs-grid input, .inputs-grid select")
+          .forEach((element) => {
+            if (element.type === "checkbox") {
+              inputs[element.id] = element.checked ? "1" : "0";
+            } else {
+              inputs[element.id] = element.value;
+            }
+          });
+        // Weekly/monthly toggle
+        inputs["toggle-weekly"] = document.getElementById("toggle-weekly")
+          .checked
+          ? "1"
+          : "0";
+        localStorage.setItem("loanCalculatorInputs", JSON.stringify(inputs));
+      }
 
-function loadInputsFromLocalStorage() {
-  const saved = localStorage.getItem('loanCalculatorInputs');
-  if (saved) {
-    const inputs = JSON.parse(saved);
-    for (const id in inputs) {
-      const element = document.getElementById(id);
-      if (element) {
-        if (element.type === 'checkbox') {
-          element.checked = inputs[id] === '1';
-        } else {
-          element.value = inputs[id];
+      function loadInputsFromLocalStorage() {
+        const saved = localStorage.getItem("loanCalculatorInputs");
+        if (saved) {
+          const inputs = JSON.parse(saved);
+          for (const id in inputs) {
+            const element = document.getElementById(id);
+            if (element) {
+              if (element.type === "checkbox") {
+                element.checked = inputs[id] === "1";
+              } else {
+                element.value = inputs[id];
+              }
+            }
+          }
         }
       }
-    }
-  }
-}
 
-function addInputPersistenceListeners() {
-  document.querySelectorAll('.inputs-grid input, .inputs-grid select').forEach(element => {
-    element.addEventListener('input', () => {
-      saveInputsToLocalStorage();
-      calculateLoan();
-    });
-  });
-  document.getElementById('toggle-weekly').addEventListener('change', () => {
-    saveInputsToLocalStorage();
-    calculateLoan();
-  });
-}
+      function addInputPersistenceListeners() {
+        document
+          .querySelectorAll(".inputs-grid input, .inputs-grid select")
+          .forEach((element) => {
+            element.addEventListener("input", () => {
+              saveInputsToLocalStorage();
+              calculateLoan();
+            });
+          });
+        document
+          .getElementById("toggle-weekly")
+          .addEventListener("change", () => {
+            saveInputsToLocalStorage();
+            calculateLoan();
+          });
+      }
 
-function loadInputsFromUrlOrLocalStorage() {
-  const inputs = decodeInputsFromUrl();
-  if (Object.keys(inputs).length > 0) {
-    setInputs(inputs);
-    if ('toggle-weekly' in inputs) {
-      document.getElementById('toggle-weekly').checked = inputs['toggle-weekly'] === '1';
-    }
-  } else {
-    loadInputsFromLocalStorage();
-  }
-}
+      function loadInputsFromUrlOrLocalStorage() {
+        const inputs = decodeInputsFromUrl();
+        if (Object.keys(inputs).length > 0) {
+          setInputs(inputs);
+          if ("toggle-weekly" in inputs) {
+            document.getElementById("toggle-weekly").checked =
+              inputs["toggle-weekly"] === "1";
+          }
+        } else {
+          loadInputsFromLocalStorage();
+        }
+      }
 
       // Calculate on page load
       window.onload = function () {
@@ -1198,9 +1268,11 @@ function loadInputsFromUrlOrLocalStorage() {
       // Function to get all input values
       function getInputs() {
         const inputs = {};
-        document.querySelectorAll(".inputs-grid input, .inputs-grid select").forEach(element => {
-          inputs[element.id] = element.value;
-        });
+        document
+          .querySelectorAll(".inputs-grid input, .inputs-grid select")
+          .forEach((element) => {
+            inputs[element.id] = element.value;
+          });
         return inputs;
       }
 
@@ -1220,7 +1292,9 @@ function loadInputsFromUrlOrLocalStorage() {
         for (const key in inputs) {
           params.append(key, inputs[key]);
         }
-        return `${window.location.origin}${window.location.pathname}?${params.toString()}`;
+        return `${window.location.origin}${
+          window.location.pathname
+        }?${params.toString()}`;
       }
 
       // Function to decode inputs from URL
@@ -1239,8 +1313,9 @@ function loadInputsFromUrlOrLocalStorage() {
         if (Object.keys(inputs).length > 0) {
           setInputs(inputs);
           // Set weekly/monthly toggle if present in URL
-          if ('toggle-weekly' in inputs) {
-            document.getElementById('toggle-weekly').checked = inputs['toggle-weekly'] === '1';
+          if ("toggle-weekly" in inputs) {
+            document.getElementById("toggle-weekly").checked =
+              inputs["toggle-weekly"] === "1";
           }
           calculateLoan(); // Recalculate with loaded inputs
         } else {
@@ -1256,16 +1331,22 @@ function loadInputsFromUrlOrLocalStorage() {
         const inputs = getInputs();
         const shareableLink = encodeInputsToUrl(inputs);
 
-        navigator.clipboard.writeText(shareableLink).then(() => {
-          const originalText = shareLinkBtn.textContent;
-          shareLinkBtn.textContent = "Link Copied!";
-          setTimeout(() => {
-            shareLinkBtn.textContent = originalText;
-          }, 2000);
-        }).catch(err => {
-          console.error("Failed to copy link: ", err);
-          alert("Failed to copy link. Please try again or copy manually: " + shareableLink);
-        });
+        navigator.clipboard
+          .writeText(shareableLink)
+          .then(() => {
+            const originalText = shareLinkBtn.textContent;
+            shareLinkBtn.textContent = "Link Copied!";
+            setTimeout(() => {
+              shareLinkBtn.textContent = originalText;
+            }, 2000);
+          })
+          .catch((err) => {
+            console.error("Failed to copy link: ", err);
+            alert(
+              "Failed to copy link. Please try again or copy manually: " +
+                shareableLink
+            );
+          });
       });
 
       // Theme toggle functionality
@@ -1299,24 +1380,35 @@ function loadInputsFromUrlOrLocalStorage() {
       }
     </script>
 
-    <div class="footer-note">
-      Made by altan.me with AI Agents
-    </div>
-    <div class="footer-note" style="margin-top:10px; font-size:13px;">
-      <strong>How repayments are calculated:</strong><br>
-      <span style="font-size:12px;">
-        The loan repayment is calculated using the standard amortizing loan formula:<br>
-        <code>Payment = P × [r(1 + r)<sup>n</sup>] / [(1 + r)<sup>n</sup> - 1]</code><br>
-        Where:<br>
-        <b>P</b> = loan amount, <b>r</b> = periodic interest rate, <b>n</b> = total number of payments.<br>
-        <b>Monthly payments:</b> r = annual rate / 12 / 100, n = loan term × 12.<br>
-        <b>Weekly payments:</b> r = annual rate / 52 / 100, n = loan term × 52.<br>
-        <br>
-        <strong>How the Serviceability Limit is calculated:</strong><br>
-        <b>Step 1:</b> Monthly payment capacity = (Gross monthly income) - (existing debts) - (living expenses)<br>
-        <b>Step 2:</b> Maximum allowed payment = Monthly payment capacity × 0.8 (for a conservative buffer)<br>
-        <b>Step 3:</b> The maximum loan is the highest loan amount where the stress-tested payment (using the formula above at interest rate +2.5%) does not exceed the maximum allowed payment.<br>
-        <b>Formula:</b> <code>Max Loan = Max Payment × [(1 - (1 + r)<sup>-n</sup>) / r]</code> where r and n use the stress test rate and 30-year term.
+    <div class="footer-note">Made by altan.me with AI Agents</div>
+    <div class="footer-note" style="margin-top: 10px; font-size: 13px">
+      <strong>How repayments are calculated:</strong><br />
+      <span style="font-size: 12px">
+        The loan repayment is calculated using the standard amortizing loan
+        formula:<br />
+        <code
+          >Payment = P × [r(1 + r)<sup>n</sup>] / [(1 + r)<sup>n</sup> -
+          1]</code
+        ><br />
+        Where:<br />
+        <b>P</b> = loan amount, <b>r</b> = periodic interest rate, <b>n</b> =
+        total number of payments.<br />
+        <b>Monthly payments:</b> r = annual rate / 12 / 100, n = loan term ×
+        12.<br />
+        <b>Weekly payments:</b> r = annual rate / 52 / 100, n = loan term ×
+        52.<br />
+        <br />
+        <strong>How the Serviceability Limit is calculated:</strong><br />
+        <b>Step 1:</b> Monthly payment capacity = (Gross monthly income) -
+        (existing debts) - (living expenses)<br />
+        <b>Step 2:</b> Maximum allowed payment = Monthly payment capacity × 0.8
+        (for a conservative buffer)<br />
+        <b>Step 3:</b> The maximum loan is the highest loan amount where the
+        stress-tested payment (using the formula above at interest rate +2.5%)
+        does not exceed the maximum allowed payment.<br />
+        <b>Formula:</b>
+        <code>Max Loan = Max Payment × [(1 - (1 + r)<sup>-n</sup>) / r]</code>
+        where r and n use the stress test rate and 30-year term.
       </span>
     </div>
   </body>
