@@ -646,7 +646,7 @@
             <div class="tooltip">
               <span class="tooltip-icon">?</span>
               <span class="tooltip-text"
-                >Cash saved for purchase. Minimum 10% deposit needed, 20% for
+                >Cash saved for purchase. Minimum 5% deposit needed, 20% for
                 better rates/no low equity fees.</span
               >
             </div>
@@ -866,8 +866,8 @@
         // 1. DTI Limit
         const maxLoanDTI = income * dtiLimit;
 
-        // 2. LVR Limit (90% for first home buyers)
-        const maxLoanLVR = propertyValue * 0.9;
+        // 2. LVR Limit (95% maximum)
+        const maxLoanLVR = propertyValue * 0.95;
 
         // 3. Serviceability Test
         const monthlyPaymentCapacity =
@@ -982,7 +982,7 @@
                 </div>
                 <div class="metric-card">
                     <div class="metric-value ${
-                      results.lvr <= 90 ? "success" : "warning"
+                      results.lvr <= 95 ? "success" : "warning"
                     }">
                         ${results.lvr.toFixed(1)}%
                     </div>
@@ -1118,10 +1118,10 @@
                 
                 <div class="result-item">
                     <span class="result-label">
-                        LVR Limit (90%)
+                        LVR Limit (95%)
                         <div class="tooltip">
                             <span class="tooltip-icon">?</span>
-                            <span class="tooltip-text">LVR stands for Loan-to-Value Ratio. Max loan: 90% of property value</span>
+                            <span class="tooltip-text">LVR stands for Loan-to-Value Ratio. Max loan: 95% of property value</span>
                         </div>
                     </span>
                     <span class="result-value">$${results.maxLoanLVR.toLocaleString()}</span>
@@ -1582,7 +1582,7 @@
                     <span class="result-value">-</span>
                 </div>
                 <div class="result-item">
-                    <span class="result-label">LVR Limit (90%)</span>
+                    <span class="result-label">LVR Limit (95%)</span>
                     <span class="result-value">-</span>
                 </div>
                 <div class="result-item">
