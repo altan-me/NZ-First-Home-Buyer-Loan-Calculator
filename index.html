@@ -437,6 +437,76 @@
         color: #ffffff;
       }
 
+      /* Calculation explanation styles */
+      .calculation-section {
+        margin-bottom: 20px;
+        padding: 15px;
+        background: white;
+        border-radius: 6px;
+        border: 1px solid #e9ecef;
+      }
+
+      .calculation-section h4 {
+        margin: 0 0 10px 0;
+        color: #2c3e50;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .formula {
+        background: #f8f9fa;
+        padding: 10px;
+        border-radius: 4px;
+        font-family: "Courier New", monospace;
+        font-size: 13px;
+        margin: 8px 0;
+        border-left: 3px solid #3498db;
+      }
+
+      .calculation-example {
+        background: #e8f5e8;
+        padding: 10px;
+        border-radius: 4px;
+        font-size: 13px;
+        margin: 8px 0;
+        border-left: 3px solid #27ae60;
+      }
+
+      .calculation-step {
+        margin: 5px 0;
+        font-size: 13px;
+      }
+
+      .highlight-value {
+        font-weight: 600;
+        color: #2c3e50;
+      }
+
+      body.dark-mode .calculation-section {
+        background: #3a3a3a;
+        border-color: #555;
+      }
+
+      body.dark-mode .calculation-section h4 {
+        color: #ffffff;
+      }
+
+      body.dark-mode .formula {
+        background: #2c2c2c;
+        color: #e0e0e0;
+        border-left-color: #3498db;
+      }
+
+      body.dark-mode .calculation-example {
+        background: #2d4a2d;
+        color: #e0e0e0;
+        border-left-color: #27ae60;
+      }
+
+      body.dark-mode .highlight-value {
+        color: #ffffff;
+      }
+
       /* Dark Mode Styles */
       body.dark-mode {
         background-color: #1a1a1a;
@@ -759,6 +829,15 @@
         <h3>Loan Balance Over Time</h3>
         <canvas id="loanChart"></canvas>
       </div>
+
+      <div
+        class="graph-container"
+        id="calculationContainer"
+        style="display: none"
+      >
+        <h3>How Repayments Are Calculated</h3>
+        <div id="calculationExplanation"></div>
+      </div>
     </div>
 
     <script>
@@ -1068,6 +1147,8 @@
         // Show graph if loan is feasible
         if (results.canAfford && results.requiredLoan > 0) {
           document.getElementById("graphContainer").style.display = "block";
+          document.getElementById("calculationContainer").style.display =
+            "block";
           // Update chart title with loan term
           document.querySelector(
             ".graph-container h3"
@@ -1077,8 +1158,11 @@
             parseFloat(document.getElementById("interestRate").value),
             results.loanTerm
           );
+          showCalculationExplanation(results);
         } else {
           document.getElementById("graphContainer").style.display = "none";
+          document.getElementById("calculationContainer").style.display =
+            "none";
         }
       }
 
@@ -1272,6 +1356,112 @@
             },
           },
         });
+      }
+
+      function showCalculationExplanation(results) {
+        const container = document.getElementById("calculationExplanation");
+        const interestRate = parseFloat(
+          document.getElementById("interestRate").value
+        );
+        const loanAmount = results.requiredLoan;
+        const loanTerm = results.loanTerm;
+        const monthlyPayment = results.monthlyPayment;
+
+        // Calculate some example values for the first payment
+        const monthlyRate = interestRate / 100 / 12;
+        const totalPayments = loanTerm * 12;
+        const firstMonthInterest = loanAmount * monthlyRate;
+        const firstMonthPrincipal = monthlyPayment - firstMonthInterest;
+        const remainingAfterFirst = loanAmount - firstMonthPrincipal;
+
+        const html = `
+          <div class="calculation-section">
+            <h4>Monthly Payment Formula</h4>
+            <div class="formula">
+              M = P × [r(1+r)ⁿ] / [(1+r)ⁿ - 1]
+            </div>
+            <div class="calculation-step">Where:</div>
+            <div class="calculation-step">• M = Monthly Payment</div>
+            <div class="calculation-step">• P = Principal (Loan Amount) = <span class="highlight-value">$${loanAmount.toLocaleString()}</span></div>
+            <div class="calculation-step">• r = Monthly Interest Rate = <span class="highlight-value">${interestRate}% ÷ 12 = ${(
+          monthlyRate * 100
+        ).toFixed(4)}%</span></div>
+            <div class="calculation-step">• n = Total Number of Payments = <span class="highlight-value">${loanTerm} years × 12 = ${totalPayments} payments</span></div>
+            
+            <div class="calculation-example">
+              <strong>Your Calculation:</strong><br>
+              M = $${loanAmount.toLocaleString()} × [${(
+          monthlyRate * 100
+        ).toFixed(4)}% × (1 + ${(monthlyRate * 100).toFixed(
+          4
+        )}%)^${totalPayments}] / [(1 + ${(monthlyRate * 100).toFixed(
+          4
+        )}%)^${totalPayments} - 1]<br>
+              <strong>Monthly Payment = <span class="highlight-value">$${Math.round(
+                monthlyPayment
+              ).toLocaleString()}</span></strong>
+            </div>
+          </div>
+
+          <div class="calculation-section">
+            <h4>How Each Payment Breaks Down</h4>
+            <div class="calculation-step">Each monthly payment is split between interest and principal:</div>
+            
+            <div class="formula">
+              Interest Payment = Remaining Balance × Monthly Interest Rate<br>
+              Principal Payment = Monthly Payment - Interest Payment
+            </div>
+            
+            <div class="calculation-example">
+              <strong>First Payment Example:</strong><br>
+              • Interest = $${loanAmount.toLocaleString()} × ${(
+          monthlyRate * 100
+        ).toFixed(4)}% = <span class="highlight-value">$${Math.round(
+          firstMonthInterest
+        ).toLocaleString()}</span><br>
+              • Principal = $${Math.round(
+                monthlyPayment
+              ).toLocaleString()} - $${Math.round(
+          firstMonthInterest
+        ).toLocaleString()} = <span class="highlight-value">$${Math.round(
+          firstMonthPrincipal
+        ).toLocaleString()}</span><br>
+              • Remaining Balance = $${loanAmount.toLocaleString()} - $${Math.round(
+          firstMonthPrincipal
+        ).toLocaleString()} = <span class="highlight-value">$${Math.round(
+          remainingAfterFirst
+        ).toLocaleString()}</span>
+            </div>
+          </div>
+
+          <div class="calculation-section">
+            <h4>Why Interest Decreases Over Time</h4>
+            <div class="calculation-step">• Early payments: High remaining balance = More interest</div>
+            <div class="calculation-step">• Later payments: Low remaining balance = Less interest</div>
+            <div class="calculation-step">• The monthly payment stays the same, but the split changes</div>
+            <div class="calculation-step">• More of each payment goes to principal as the loan progresses</div>
+            
+            <div class="calculation-example">
+              <strong>Total Loan Cost:</strong><br>
+              • Total Payments = $${Math.round(
+                monthlyPayment
+              ).toLocaleString()} × ${totalPayments} = <span class="highlight-value">$${Math.round(
+          monthlyPayment * totalPayments
+        ).toLocaleString()}</span><br>
+              • Total Interest = $${Math.round(
+                monthlyPayment * totalPayments
+              ).toLocaleString()} - $${loanAmount.toLocaleString()} = <span class="highlight-value">$${Math.round(
+          monthlyPayment * totalPayments - loanAmount
+        ).toLocaleString()}</span><br>
+              • Interest as % of loan = <span class="highlight-value">${(
+                ((monthlyPayment * totalPayments - loanAmount) / loanAmount) *
+                100
+              ).toFixed(1)}%</span>
+            </div>
+          </div>
+        `;
+
+        container.innerHTML = html;
       }
 
       // --- LocalStorage Auto-Save & Load ---
