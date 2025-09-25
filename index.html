@@ -992,6 +992,21 @@
                     <div class="metric-value">${results.dti.toFixed(1)}x</div>
                     <div class="metric-label">DTI</div>
                 </div>
+                <div class="metric-card">
+                    <div class="metric-value ${
+                      (results.deposit / results.propertyValue) * 100 >= 20
+                        ? "success"
+                        : (results.deposit / results.propertyValue) * 100 >= 10
+                        ? ""
+                        : "warning"
+                    }">
+                        ${(
+                          (results.deposit / results.propertyValue) *
+                          100
+                        ).toFixed(1)}%
+                    </div>
+                    <div class="metric-label">Deposit</div>
+                </div>
             `;
 
         // Detailed results
@@ -1005,6 +1020,28 @@
                         </div>
                     </span>
                     <span class="result-value">$${results.requiredLoan.toLocaleString()}</span>
+                </div>
+                
+                <div class="result-item">
+                    <span class="result-label">
+                        Deposit Percentage
+                        <div class="tooltip">
+                            <span class="tooltip-icon">?</span>
+                            <span class="tooltip-text">Your deposit as a percentage of the property value. 20%+ avoids low equity fees.</span>
+                        </div>
+                    </span>
+                    <span class="result-value ${
+                      (results.deposit / results.propertyValue) * 100 >= 20
+                        ? "success"
+                        : (results.deposit / results.propertyValue) * 100 >= 10
+                        ? ""
+                        : "warning"
+                    }">
+                        ${(
+                          (results.deposit / results.propertyValue) *
+                          100
+                        ).toFixed(1)}% ($${results.deposit.toLocaleString()})
+                    </span>
                 </div>
                 
                 <div class="result-item">
@@ -1560,6 +1597,10 @@
                 <div class="metric-card">
                     <div class="metric-value">-</div>
                     <div class="metric-label">DTI</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">-</div>
+                    <div class="metric-label">Deposit</div>
                 </div>
             `;
 
